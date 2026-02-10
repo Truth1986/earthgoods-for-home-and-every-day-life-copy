@@ -16,7 +16,8 @@ const categoryLabels = {
   home_improvement: "Home Improvement",
   handmade: "Handmade",
   garden: "Garden",
-  wellness: "Wellness"
+  wellness: "Wellness",
+  clothing: "Clothing"
 };
 
 export default function ProductDetail() {
@@ -30,6 +31,7 @@ export default function ProductDetail() {
   const [cartOpen, setCartOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -44,13 +46,25 @@ export default function ProductDetail() {
     enabled: !!productId,
   });
 
+  const currentPrice = selectedVariant ? selectedVariant.price : product?.price;
+  const cartItemId = selectedVariant ? `${product.id}-${selectedVariant.name}` : product?.id;
+
   const addToCart = () => {
+    const cartItem = {
+      ...product,
+      id: cartItemId,
+      productId: product.id,
+      price: currentPrice,
+      variantName: selectedVariant?.name || null,
+      quantity
+    };
+
     setCart(prev => {
-      const existing = prev.find(p => p.id === product.id);
+      const existing = prev.find(p => p.id === cartItemId);
       if (existing) {
-        return prev.map(p => p.id === product.id ? { ...p, quantity: p.quantity + quantity } : p);
+        return prev.map(p => p.id === cartItemId ? { ...p, quantity: p.quantity + quantity } : p);
       }
-      return [...prev, { ...product, quantity }];
+      return [...prev, cartItem];
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -136,7 +150,8 @@ export default function ProductDetail() {
             </h1>
             
             <p className="text-4xl font-bold text-emerald-700 mb-6">
-              ${product.price?.toFixed(2)}
+              ${currentPrice?.toFixed(2)}
+              {selectedVariant && <span className="text-lg text-stone-500 ml-2">({selectedVariant.name})</span>}
             </p>
 
             <p className="text-stone-600 leading-relaxed mb-8 flex-1">
@@ -144,6 +159,40 @@ export default function ProductDetail() {
             </p>
 
             <div className="space-y-6">
+              {/* Variants */}
+              {product.variants?.length > 0 && (
+                <div className="space-y-3">
+                  <span className="text-stone-600 font-medium">Size / Option:</span>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => setSelectedVariant(null)}
+                      className={`px-4 py-2 rounded-full border-2 transition-all ${
+                        !selectedVariant 
+                          ? 'border-emerald-600 bg-emerald-50 text-emerald-700' 
+                          : 'border-stone-200 hover:border-stone-300'
+                      }`}
+                    >
+                      <span className="font-medium">Standard</span>
+                      <span className="ml-2 text-sm">${product.price?.toFixed(2)}</span>
+                    </button>
+                    {product.variants.map((variant, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedVariant(variant)}
+                        className={`px-4 py-2 rounded-full border-2 transition-all ${
+                          selectedVariant?.name === variant.name 
+                            ? 'border-emerald-600 bg-emerald-50 text-emerald-700' 
+                            : 'border-stone-200 hover:border-stone-300'
+                        }`}
+                      >
+                        <span className="font-medium">{variant.name}</span>
+                        <span className="ml-2 text-sm">${variant.price?.toFixed(2)}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Quantity */}
               <div className="flex items-center gap-4">
                 <span className="text-stone-600 font-medium">Quantity:</span>

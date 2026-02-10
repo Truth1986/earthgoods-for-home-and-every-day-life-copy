@@ -14,7 +14,8 @@ const categoryLabels = {
   home_improvement: "Home",
   handmade: "Handmade",
   garden: "Garden",
-  wellness: "Wellness"
+  wellness: "Wellness",
+  clothing: "Clothing"
 };
 
 const categoryColors = {
@@ -25,10 +26,11 @@ const categoryColors = {
   home_improvement: "bg-blue-100 text-blue-800",
   handmade: "bg-purple-100 text-purple-800",
   garden: "bg-lime-100 text-lime-800",
-  wellness: "bg-teal-100 text-teal-800"
+  wellness: "bg-teal-100 text-teal-800",
+  clothing: "bg-indigo-100 text-indigo-800"
 };
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product }) {
   return (
     <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm">
       <div className="relative overflow-hidden aspect-square bg-stone-100">
@@ -60,15 +62,22 @@ export default function ProductCard({ product, onAddToCart }) {
         </Link>
         <p className="text-stone-500 text-sm mb-4 line-clamp-2">{product.description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold text-emerald-700">${product.price?.toFixed(2)}</span>
-          <Button 
-            onClick={() => onAddToCart(product)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4"
-            size="sm"
-          >
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Add
-          </Button>
+          {product.variants?.length > 0 ? (
+            <span className="text-lg font-bold text-emerald-700">
+              From ${Math.min(product.price, ...product.variants.map(v => v.price)).toFixed(2)}
+            </span>
+          ) : (
+            <span className="text-2xl font-bold text-emerald-700">${product.price?.toFixed(2)}</span>
+          )}
+          <Link to={createPageUrl(`ProductDetail?id=${product.id}`)}>
+            <Button 
+              className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4"
+              size="sm"
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              {product.variants?.length > 0 ? 'View' : 'Add'}
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>
