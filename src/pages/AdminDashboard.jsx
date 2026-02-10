@@ -46,6 +46,7 @@ const categories = [
   { value: "handmade", label: "Handmade" },
   { value: "garden", label: "Garden" },
   { value: "wellness", label: "Wellness" },
+  { value: "clothing", label: "Clothing" },
 ];
 
 const statusColors = {
@@ -66,8 +67,10 @@ export default function AdminDashboard() {
     category: 'homesteading',
     image_url: '',
     stock: 1,
-    featured: false
+    featured: false,
+    variants: []
   });
+  const [newVariant, setNewVariant] = useState({ name: '', price: '' });
 
   const { data: products = [], isLoading: loadingProducts } = useQuery({
     queryKey: ['admin-products'],
@@ -124,8 +127,10 @@ export default function AdminDashboard() {
       category: 'homesteading',
       image_url: '',
       stock: 1,
-      featured: false
+      featured: false,
+      variants: []
     });
+    setNewVariant({ name: '', price: '' });
   };
 
   const openEditDialog = (product) => {
@@ -137,9 +142,27 @@ export default function AdminDashboard() {
       category: product.category || 'homesteading',
       image_url: product.image_url || '',
       stock: product.stock || 1,
-      featured: product.featured || false
+      featured: product.featured || false,
+      variants: product.variants || []
     });
     setProductDialog(true);
+  };
+
+  const addVariant = () => {
+    if (newVariant.name && newVariant.price) {
+      setProductForm({
+        ...productForm,
+        variants: [...productForm.variants, { name: newVariant.name, price: parseFloat(newVariant.price) }]
+      });
+      setNewVariant({ name: '', price: '' });
+    }
+  };
+
+  const removeVariant = (index) => {
+    setProductForm({
+      ...productForm,
+      variants: productForm.variants.filter((_, i) => i !== index)
+    });
   };
 
   const handleSubmit = (e) => {
@@ -309,6 +332,43 @@ export default function AdminDashboard() {
                         />
                         <Label>Featured on homepage</Label>
                       </div>
+
+                      {/* Variants */}
+                      <div className="space-y-3 border-t pt-4">
+                        <Label>Size/Quantity Variants (optional)</Label>
+                        <div className="flex gap-2">
+                          <Input 
+                            placeholder="Name (e.g., Large, 5lb)"
+                            value={newVariant.name}
+                            onChange={(e) => setNewVariant({...newVariant, name: e.target.value})}
+                            className="flex-1"
+                          />
+                          <Input 
+                            type="number"
+                            step="0.01"
+                            placeholder="Price"
+                            value={newVariant.price}
+                            onChange={(e) => setNewVariant({...newVariant, price: e.target.value})}
+                            className="w-24"
+                          />
+                          <Button type="button" variant="outline" onClick={addVariant}>
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        {productForm.variants.length > 0 && (
+                          <div className="space-y-2">
+                            {productForm.variants.map((v, i) => (
+                              <div key={i} className="flex items-center justify-between bg-stone-50 rounded-lg px-3 py-2">
+                                <span>{v.name} - ${v.price?.toFixed(2)}</span>
+                                <Button type="button" variant="ghost" size="icon" onClick={() => removeVariant(i)}>
+                                  <Trash2 className="w-4 h-4 text-red-500" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
                       <Button 
                         type="submit" 
                         className="w-full bg-emerald-600 hover:bg-emerald-700"
@@ -366,7 +426,12 @@ export default function AdminDashboard() {
                               {product.category?.replace('_', ' ')}
                             </Badge>
                           </TableCell>
-                          <TableCell>${product.price?.toFixed(2)}</TableCell>
+                          <TableCell>
+                            ${product.price?.toFixed(2)}
+                            {product.variants?.length > 0 && (
+                              <span className="text-xs text-stone-500 ml-1">+{product.variants.length} variants</span>
+                            )}
+                          </TableCell>
                           <TableCell>{product.stock}</TableCell>
                           <TableCell>
                             {product.featured && <Badge className="bg-amber-100 text-amber-800">Yes</Badge>}

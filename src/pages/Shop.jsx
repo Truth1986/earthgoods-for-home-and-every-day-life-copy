@@ -27,6 +27,7 @@ const categories = [
   { value: "handmade", label: "Handmade" },
   { value: "garden", label: "Garden" },
   { value: "wellness", label: "Wellness" },
+  { value: "clothing", label: "Clothing" },
 ];
 
 export default function Shop() {
@@ -159,7 +160,7 @@ export default function Shop() {
         ) : filteredProducts.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
