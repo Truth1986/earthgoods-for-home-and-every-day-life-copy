@@ -2,7 +2,9 @@ import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Leaf } from "lucide-react";
+import { ShoppingCart, Leaf, Heart } from "lucide-react";
+import { base44 } from '@/api/base44Client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 
@@ -31,6 +33,41 @@ const categoryColors = {
 };
 
 export default function ProductCard({ product }) {
+  const queryClient = useQueryClient();
+  
+  const { data: wishlistItems = [] } = useQuery({
+    queryKey: ['wishlist'],
+    queryFn: () => base44.entities.Wishlist.list(),
+  });
+
+  const isInWishlist = wishlistItems.some(item => item.product_id === product.id);
+  const wishlistItem = wishlistItems.find(item => item.product_id === product.id);
+
+  const addToWishlist = useMutation({
+    mutationFn: () => base44.entities.Wishlist.create({
+      product_id: product.id,
+      product_title: product.title,
+      product_image_url: product.image_url,
+      product_price: product.price
+    }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['wishlist'] }),
+  });
+
+  const removeFromWishlist = useMutation({
+    mutationFn: () => base44.entities.Wishlist.delete(wishlistItem.id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['wishlist'] }),
+  });
+
+  const toggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInWishlist) {
+      removeFromWishlist.mutate();
+    } else {
+      addToWishlist.mutate();
+    }
+  };
+
   return (
     <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm">
       <div className="relative overflow-hidden aspect-square bg-stone-100">
@@ -50,6 +87,16 @@ export default function ProductCard({ product }) {
             <Badge className="bg-amber-500 text-white border-0">Featured</Badge>
           </div>
         )}
+        <button
+          onClick={toggleWishlist}
+          className={`absolute top-3 right-3 p-2 rounded-full transition-colors ${
+            isInWishlist 
+              ? 'bg-rose-500 text-white' 
+              : 'bg-white/90 text-stone-400 hover:text-rose-500'
+          }`}
+        >
+          <Heart className={`w-4 h-4 ${isInWishlist ? 'fill-current' : ''}`} />
+        </button>
       </div>
       <CardContent className="p-5">
         <Badge variant="secondary" className={`mb-3 ${categoryColors[product.category] || 'bg-stone-100'}`}>

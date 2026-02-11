@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Leaf, Search, ShoppingCart, Filter, X } from "lucide-react";
+import { Leaf, Search, ShoppingCart, Filter, X, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import ProductCard from "@/components/ProductCard";
@@ -83,6 +83,10 @@ export default function Shop() {
           <nav className="hidden md:flex items-center gap-6">
             <Link to={createPageUrl('Shop')} className="text-emerald-700 font-medium">
               Shop All
+            </Link>
+            <Link to={createPageUrl('Wishlist')} className="text-stone-600 hover:text-emerald-700 transition-colors font-medium flex items-center gap-1">
+              <Heart className="w-4 h-4" />
+              Wishlist
             </Link>
             <Link to={createPageUrl('About')} className="text-stone-600 hover:text-emerald-700 transition-colors font-medium">
               Our Mission
