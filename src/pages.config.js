@@ -47,21 +47,23 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import ProductDetail from './pages/ProductDetail';
-import Checkout from './pages/Checkout';
 import About from './pages/About';
 import AdminDashboard from './pages/AdminDashboard';
+import Checkout from './pages/Checkout';
+import Home from './pages/Home';
+import ProductDetail from './pages/ProductDetail';
+import Shop from './pages/Shop';
+import Wishlist from './pages/Wishlist';
 
 
 export const PAGES = {
-    "Home": Home,
-    "Shop": Shop,
-    "ProductDetail": ProductDetail,
-    "Checkout": Checkout,
     "About": About,
     "AdminDashboard": AdminDashboard,
+    "Checkout": Checkout,
+    "Home": Home,
+    "ProductDetail": ProductDetail,
+    "Shop": Shop,
+    "Wishlist": Wishlist,
 }
 
 export const pagesConfig = {
