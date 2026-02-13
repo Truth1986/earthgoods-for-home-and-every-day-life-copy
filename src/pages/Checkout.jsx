@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2 } from "lucide-react";
+import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Copy } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -24,10 +25,13 @@ export default function Checkout() {
     customer_address: '',
     notes: ''
   });
+  const [shipping, setShipping] = useState('standard');
+  const [orderTotal, setOrderTotal] = useState(0);
 
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const fee = total * 0.03;
-  const grandTotal = total + fee;
+  const shippingCost = shipping === 'overnight' ? total * 0.20 : 0;
+  const grandTotal = total + fee + shippingCost;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,11 +52,13 @@ export default function Checkout() {
         quantity: item.quantity
       })),
       total: grandTotal,
-      status: 'pending'
+      status: 'pending',
+      notes: `${form.notes ? form.notes + '\n' : ''}Shipping: ${shipping === 'overnight' ? 'Overnight (+20%)' : 'Standard'}`
     };
 
     await base44.entities.Order.create(orderData);
     
+    setOrderTotal(grandTotal);
     localStorage.removeItem('cart');
     setSuccess(true);
     setLoading(false);
@@ -74,6 +80,11 @@ export default function Checkout() {
     );
   }
 
+  const copyPayPalLink = () => {
+    navigator.clipboard.writeText('paypal.me/tracieruth281');
+    toast.success('PayPal link copied!');
+  };
+
   if (success) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-stone-50 flex items-center justify-center p-4">
@@ -82,11 +93,40 @@ export default function Checkout() {
             <Check className="w-10 h-10 text-emerald-600" />
           </div>
           <h2 className="text-3xl font-bold text-stone-800 mb-4">Order Placed!</h2>
-          <p className="text-stone-600 mb-8">
-            Thank you for supporting sustainable living. We'll be in touch about your order soon.
+          <p className="text-stone-600 mb-4">
+            Thank you for your order! Please complete payment via PayPal:
           </p>
+          
+          <Card className="border-2 border-blue-200 bg-blue-50 mb-6">
+            <CardContent className="pt-6">
+              <p className="text-2xl font-bold text-stone-800 mb-4">${orderTotal.toFixed(2)}</p>
+              <a 
+                href={`https://paypal.me/tracieruth281/${orderTotal.toFixed(2)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 rounded-full h-12 text-lg mb-3">
+                  Pay with PayPal
+                </Button>
+              </a>
+              <Button 
+                variant="outline" 
+                className="w-full rounded-full"
+                onClick={copyPayPalLink}
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copy PayPal Link
+              </Button>
+              <p className="text-sm text-stone-500 mt-3">paypal.me/tracieruth281</p>
+            </CardContent>
+          </Card>
+
+          <p className="text-stone-500 text-sm mb-6">
+            After payment, your order will be processed and shipped.
+          </p>
+          
           <Link to={createPageUrl('Shop')}>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8">
+            <Button variant="outline" className="rounded-full px-8">
               Continue Shopping
             </Button>
           </Link>
@@ -166,6 +206,30 @@ export default function Checkout() {
                     />
                   </div>
 
+                  <div className="space-y-3">
+                    <Label>Shipping Method</Label>
+                    <RadioGroup value={shipping} onValueChange={setShipping} className="space-y-3">
+                      <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${shipping === 'standard' ? 'border-emerald-500 bg-emerald-50' : 'border-stone-200 hover:border-stone-300'}`}>
+                        <RadioGroupItem value="standard" id="standard" />
+                        <Truck className="w-5 h-5 text-stone-600" />
+                        <div className="flex-1">
+                          <p className="font-medium text-stone-800">Standard Shipping</p>
+                          <p className="text-sm text-stone-500">5-7 business days</p>
+                        </div>
+                        <span className="font-semibold text-emerald-600">FREE</span>
+                      </label>
+                      <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${shipping === 'overnight' ? 'border-emerald-500 bg-emerald-50' : 'border-stone-200 hover:border-stone-300'}`}>
+                        <RadioGroupItem value="overnight" id="overnight" />
+                        <Zap className="w-5 h-5 text-amber-500" />
+                        <div className="flex-1">
+                          <p className="font-medium text-stone-800">Overnight Shipping</p>
+                          <p className="text-sm text-stone-500">Next business day</p>
+                        </div>
+                        <span className="font-semibold text-stone-800">+20%</span>
+                      </label>
+                    </RadioGroup>
+                  </div>
+
                   <Button 
                     type="submit" 
                     disabled={loading}
@@ -222,6 +286,10 @@ export default function Checkout() {
                       <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">3%</span>
                     </span>
                     <span>${fee.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-stone-600">
+                    <span>Shipping</span>
+                    <span>{shipping === 'overnight' ? `$${shippingCost.toFixed(2)}` : 'FREE'}</span>
                   </div>
                   <div className="flex justify-between text-xl font-bold text-stone-800 pt-2">
                     <span>Total</span>
