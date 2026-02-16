@@ -54,6 +54,7 @@ import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Shop from './pages/Shop';
 import Wishlist from './pages/Wishlist';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
 
 
 export const PAGES = {
@@ -64,6 +65,7 @@ export const PAGES = {
     "ProductDetail": ProductDetail,
     "Shop": Shop,
     "Wishlist": Wishlist,
+    "AnalyticsDashboard": AnalyticsDashboard,
 }
 
 export const pagesConfig = {
