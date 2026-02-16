@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2 } from "lucide-react";
+import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -197,9 +197,17 @@ export default function AdminDashboard() {
               <span className="ml-2 text-sm text-stone-500">Admin</span>
             </div>
           </div>
-          <Link to={createPageUrl('Home')}>
-            <Button variant="outline" className="rounded-full">View Store</Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to={createPageUrl('AnalyticsDashboard')}>
+              <Button variant="outline" className="rounded-full">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Analytics
+              </Button>
+            </Link>
+            <Link to={createPageUrl('Home')}>
+              <Button variant="outline" className="rounded-full">View Store</Button>
+            </Link>
+          </div>
         </div>
       </header>
 
