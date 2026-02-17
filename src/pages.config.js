@@ -49,23 +49,23 @@
  */
 import About from './pages/About';
 import AdminDashboard from './pages/AdminDashboard';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
 import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Shop from './pages/Shop';
 import Wishlist from './pages/Wishlist';
-import AnalyticsDashboard from './pages/AnalyticsDashboard';
 
 
 export const PAGES = {
     "About": About,
     "AdminDashboard": AdminDashboard,
+    "AnalyticsDashboard": AnalyticsDashboard,
     "Checkout": Checkout,
     "Home": Home,
     "ProductDetail": ProductDetail,
     "Shop": Shop,
     "Wishlist": Wishlist,
-    "AnalyticsDashboard": AnalyticsDashboard,
 }
 
 export const pagesConfig = {
