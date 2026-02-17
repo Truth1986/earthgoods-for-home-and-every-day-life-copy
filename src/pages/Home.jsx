@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import ProductCard from "@/components/ProductCard";
 import CartDrawer from "@/components/CartDrawer";
+import OrderChatWidget from "@/components/chat/OrderChatWidget";
 
 export default function Home() {
   const [cart, setCart] = useState(() => {
@@ -196,6 +197,7 @@ export default function Home() {
       </footer>
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
+      <OrderChatWidget />
     </div>
   );
 }
