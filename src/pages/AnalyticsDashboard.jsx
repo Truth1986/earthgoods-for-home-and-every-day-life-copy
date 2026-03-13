@@ -8,8 +8,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Leaf, ArrowLeft, TrendingUp, TrendingDown, Users, ShoppingCart, 
   Eye, DollarSign, Package, BarChart3, PieChart as PieChartIcon,
-  Calendar, RefreshCw
+  Calendar, RefreshCw, Award, LineChart as LineChartIcon, Lock
 } from "lucide-react";
+import BestSellersReport from "@/components/analytics/BestSellersReport";
+import SalesTrendsReport from "@/components/analytics/SalesTrendsReport";
+import CustomerDemographics from "@/components/analytics/CustomerDemographics";
+import OwnerProfitView from "@/components/analytics/OwnerProfitView";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
@@ -23,6 +27,7 @@ const COLORS = ['#059669', '#d97706', '#7c3aed', '#db2777', '#0891b2', '#84cc16'
 
 export default function AnalyticsDashboard() {
   const [dateRange, setDateRange] = useState('7days');
+  const [trendTimeframe, setTrendTimeframe] = useState('monthly');
 
   const { data: orders = [], isLoading: ordersLoading, refetch: refetchOrders } = useQuery({
     queryKey: ['analytics-orders'],
@@ -246,7 +251,7 @@ export default function AnalyticsDashboard() {
             </div>
 
             <Tabs defaultValue="traffic" className="space-y-6">
-              <TabsList className="bg-white border border-stone-200 p-1 rounded-full">
+              <TabsList className="bg-white border border-stone-200 p-1 rounded-full flex-wrap">
                 <TabsTrigger value="traffic" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
                   <Eye className="w-4 h-4 mr-2" />
                   Traffic
@@ -262,6 +267,22 @@ export default function AnalyticsDashboard() {
                 <TabsTrigger value="customers" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
                   <Users className="w-4 h-4 mr-2" />
                   Customers
+                </TabsTrigger>
+                <TabsTrigger value="bestsellers" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+                  <Award className="w-4 h-4 mr-2" />
+                  Best Sellers
+                </TabsTrigger>
+                <TabsTrigger value="trends" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+                  <LineChartIcon className="w-4 h-4 mr-2" />
+                  Trends
+                </TabsTrigger>
+                <TabsTrigger value="demographics" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+                  <Users className="w-4 h-4 mr-2" />
+                  Demographics
+                </TabsTrigger>
+                <TabsTrigger value="profit" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+                  <Lock className="w-4 h-4 mr-2" />
+                  Profit
                 </TabsTrigger>
               </TabsList>
 
@@ -552,6 +573,42 @@ export default function AnalyticsDashboard() {
                     )}
                   </CardContent>
                 </Card>
+              </TabsContent>
+
+              {/* Best Sellers Tab */}
+              <TabsContent value="bestsellers" className="space-y-6">
+                <BestSellersReport orders={filteredOrders} dateRange={`Last ${daysCount} days`} />
+              </TabsContent>
+
+              {/* Trends Tab */}
+              <TabsContent value="trends" className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-bold text-stone-800">Sales Trends Analysis</h3>
+                  <div className="flex items-center gap-2 bg-white border border-stone-200 rounded-full p-1">
+                    {['weekly', 'monthly', 'yearly'].map(tf => (
+                      <Button
+                        key={tf}
+                        variant={trendTimeframe === tf ? 'default' : 'ghost'}
+                        size="sm"
+                        className={`rounded-full ${trendTimeframe === tf ? 'bg-emerald-600 hover:bg-emerald-700' : ''}`}
+                        onClick={() => setTrendTimeframe(tf)}
+                      >
+                        {tf.charAt(0).toUpperCase() + tf.slice(1)}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <SalesTrendsReport orders={orders} timeframe={trendTimeframe} />
+              </TabsContent>
+
+              {/* Demographics Tab */}
+              <TabsContent value="demographics" className="space-y-6">
+                <CustomerDemographics orders={orders} />
+              </TabsContent>
+
+              {/* Profit Tab */}
+              <TabsContent value="profit" className="space-y-6">
+                <OwnerProfitView totalRevenue={totalRevenue} />
               </TabsContent>
 
               {/* Customers Tab */}
