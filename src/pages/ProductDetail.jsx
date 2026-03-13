@@ -7,6 +7,8 @@ import { Leaf, ShoppingCart, ArrowLeft, Minus, Plus, Check } from "lucide-react"
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import CartDrawer from "@/components/CartDrawer";
+import ReviewSection from "@/components/product/ReviewSection";
+import FrequentlyBoughtTogether from "@/components/product/FrequentlyBoughtTogether";
 
 const categoryLabels = {
   homesteading: "Homesteading",
@@ -49,25 +51,33 @@ export default function ProductDetail() {
   const currentPrice = selectedVariant ? selectedVariant.price : product?.price;
   const cartItemId = selectedVariant ? `${product.id}-${selectedVariant.name}` : product?.id;
 
-  const addToCart = () => {
+  const addToCart = (productToAdd = null, quantityToAdd = null) => {
+    const targetProduct = productToAdd || product;
+    const targetQuantity = quantityToAdd || quantity;
+    const targetPrice = productToAdd ? productToAdd.price : currentPrice;
+    const targetId = productToAdd ? productToAdd.id : cartItemId;
+    
     const cartItem = {
-      ...product,
-      id: cartItemId,
-      productId: product.id,
-      price: currentPrice,
-      variantName: selectedVariant?.name || null,
-      quantity
+      ...targetProduct,
+      id: targetId,
+      productId: targetProduct.id,
+      price: targetPrice,
+      variantName: productToAdd ? null : (selectedVariant?.name || null),
+      quantity: targetQuantity
     };
 
     setCart(prev => {
-      const existing = prev.find(p => p.id === cartItemId);
+      const existing = prev.find(p => p.id === targetId);
       if (existing) {
-        return prev.map(p => p.id === cartItemId ? { ...p, quantity: p.quantity + quantity } : p);
+        return prev.map(p => p.id === targetId ? { ...p, quantity: p.quantity + targetQuantity } : p);
       }
       return [...prev, cartItem];
     });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    
+    if (!productToAdd) {
+      setAdded(true);
+      setTimeout(() => setAdded(false), 2000);
+    }
   };
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -248,6 +258,19 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Frequently Bought Together */}
+        <div className="mt-12">
+          <FrequentlyBoughtTogether 
+            currentProductId={product.id} 
+            onAddToCart={(p) => addToCart(p, 1)}
+          />
+        </div>
+
+        {/* Reviews */}
+        <div className="mt-12">
+          <ReviewSection productId={product.id} />
         </div>
       </div>
 
