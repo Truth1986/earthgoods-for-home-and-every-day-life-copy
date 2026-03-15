@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Copy } from "lucide-react";
+import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Copy, Tag, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -27,11 +28,47 @@ export default function Checkout() {
   });
   const [shipping, setShipping] = useState('standard');
   const [orderTotal, setOrderTotal] = useState(0);
+  const [refInput, setRefInput] = useState('');
+  const [appliedCode, setAppliedCode] = useState(null);
+  const [refLoading, setRefLoading] = useState(false);
+  const [refError, setRefError] = useState('');
+
+  // Auto-apply ref from URL on load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) {
+      setRefInput(ref);
+      applyCode(ref);
+    }
+  }, []);
+
+  const applyCode = async (codeToApply) => {
+    const code = (codeToApply || refInput).trim().toUpperCase();
+    if (!code) return;
+    setRefLoading(true);
+    setRefError('');
+    const results = await base44.entities.ReferralCode.filter({ code, is_active: true });
+    if (results.length === 0) {
+      setRefError('Invalid or expired referral code.');
+    } else {
+      setAppliedCode(results[0]);
+    }
+    setRefLoading(false);
+  };
+
+  const removeCode = () => {
+    setAppliedCode(null);
+    setRefInput('');
+    setRefError('');
+  };
 
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const fee = total * 0.03;
-  const shippingCost = shipping === 'overnight' ? total * 0.20 : 0;
-  const grandTotal = total + fee + shippingCost;
+  const discountAmount = appliedCode ? total * (appliedCode.discount_percent / 100) : 0;
+  const discountedTotal = total - discountAmount;
+  const fee = discountedTotal * 0.03;
+  const shippingCost = shipping === 'overnight' ? discountedTotal * 0.20 : 0;
+  const grandTotal = discountedTotal + fee + shippingCost;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
