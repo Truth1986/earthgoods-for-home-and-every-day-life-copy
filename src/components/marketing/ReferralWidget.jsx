@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Gift, Copy, Check, Users, Link2, Sparkles } from "lucide-react";
+import { Gift, Copy, Check, Users, Link2, Sparkles, DollarSign, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 function generateCode(name) {
@@ -17,6 +18,12 @@ export default function ReferralWidget({ user }) {
   const queryClient = useQueryClient();
   const [copied, setCopied] = useState(false);
   const [creating, setCreating] = useState(false);
+
+  const { data: rewards = [] } = useQuery({
+    queryKey: ['my-referral-rewards', user?.email],
+    queryFn: () => base44.entities.ReferralReward.filter({ referrer_email: user.email }),
+    enabled: !!user?.email,
+  });
 
   const { data: myCode } = useQuery({
     queryKey: ['my-referral-code', user?.email],
@@ -78,6 +85,34 @@ export default function ReferralWidget({ user }) {
             </div>
           ))}
         </div>
+
+        {/* Rewards earned */}
+        {rewards.length > 0 && (
+          <div className="bg-white rounded-xl border border-stone-200 p-4 space-y-3">
+            <p className="text-sm font-semibold text-stone-700 flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-emerald-600" />
+              Your Rewards Earned
+            </p>
+            {rewards.map(r => (
+              <div key={r.id} className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2 text-stone-600">
+                  <Clock className="w-3 h-3 text-stone-400" />
+                  <span>{r.referred_email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-emerald-700">+${r.discount_amount?.toFixed(2)}</span>
+                  <Badge className={r.status === 'pending' ? 'bg-amber-100 text-amber-700 border-0' : 'bg-emerald-100 text-emerald-700 border-0'}>
+                    {r.status}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+            <div className="border-t pt-2 flex justify-between text-sm font-bold">
+              <span className="text-stone-700">Total Rewards</span>
+              <span className="text-emerald-700">${rewards.reduce((s, r) => s + (r.discount_amount || 0), 0).toFixed(2)}</span>
+            </div>
+          </div>
+        )}
 
         {myCode ? (
           <div className="space-y-3">
