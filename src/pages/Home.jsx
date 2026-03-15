@@ -58,6 +58,9 @@ export default function Home() {
               <Heart className="w-4 h-4" />
               Wishlist
             </Link>
+            <Link to={createPageUrl('Blog')} className="text-stone-600 hover:text-emerald-700 transition-colors font-medium">
+              Blog
+            </Link>
             <Link to={createPageUrl('About')} className="text-stone-600 hover:text-emerald-700 transition-colors font-medium">
               Our Mission
             </Link>
