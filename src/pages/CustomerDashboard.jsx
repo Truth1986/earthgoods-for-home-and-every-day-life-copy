@@ -10,6 +10,7 @@ import { createPageUrl } from "@/utils";
 import OrderHistory from "@/components/dashboard/OrderHistory";
 import AddressManager from "@/components/dashboard/AddressManager";
 import ProfileEditor from "@/components/dashboard/ProfileEditor";
+import ReferralWidget from "@/components/marketing/ReferralWidget";
 
 export default function CustomerDashboard() {
   const { data: user, isLoading } = useQuery({
@@ -80,7 +81,10 @@ export default function CustomerDashboard() {
           </TabsContent>
 
           <TabsContent value="profile">
-            <ProfileEditor user={user} />
+            <div className="space-y-6">
+              <ProfileEditor user={user} />
+              <ReferralWidget user={user} />
+            </div>
           </TabsContent>
         </Tabs>
       </div>
