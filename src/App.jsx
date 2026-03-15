@@ -11,6 +11,7 @@ import CustomerDashboard from './pages/CustomerDashboard';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BlogEditor from './pages/BlogEditor';
+import MarketingHub from './pages/MarketingHub';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -66,6 +67,7 @@ const AuthenticatedApp = () => {
       <Route path="/Blog" element={<Blog />} />
       <Route path="/BlogPost" element={<BlogPost />} />
       <Route path="/BlogEditor" element={<BlogEditor />} />
+      <Route path="/MarketingHub" element={<MarketingHub />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
