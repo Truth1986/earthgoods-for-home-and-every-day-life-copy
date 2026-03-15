@@ -8,6 +8,9 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import CustomerDashboard from './pages/CustomerDashboard';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import BlogEditor from './pages/BlogEditor';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -60,6 +63,9 @@ const AuthenticatedApp = () => {
         />
       ))}
       <Route path="/CustomerDashboard" element={<CustomerDashboard />} />
+      <Route path="/Blog" element={<Blog />} />
+      <Route path="/BlogPost" element={<BlogPost />} />
+      <Route path="/BlogEditor" element={<BlogEditor />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
