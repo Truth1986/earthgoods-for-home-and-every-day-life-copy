@@ -9,6 +9,8 @@ import { createPageUrl } from "@/utils";
 import ProductCard from "@/components/ProductCard";
 import CartDrawer from "@/components/CartDrawer";
 import OrderChatWidget from "@/components/chat/OrderChatWidget";
+import EmailCapturePopup from "@/components/marketing/EmailCapturePopup";
+import FooterEmailCapture from "@/components/marketing/FooterEmailCapture";
 
 export default function Home() {
   const [cart, setCart] = useState(() => {
@@ -188,19 +190,28 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-stone-800 text-stone-400 py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-white" />
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-stone-700">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
+                  <Leaf className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg font-semibold text-white">EarthGoods</span>
+              </div>
+              <p className="text-sm">Made with love for simple living folks everywhere.</p>
             </div>
-            <span className="text-lg font-semibold text-white">EarthGoods</span>
+            <div>
+              <FooterEmailCapture source="footer" />
+            </div>
           </div>
-          <p className="text-sm">Made with love for simple living folks everywhere.</p>
+          <p className="text-sm text-center">© 2026 EarthGoods. All rights reserved.</p>
         </div>
       </footer>
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
       <OrderChatWidget />
+      <EmailCapturePopup />
     </div>
   );
 }
