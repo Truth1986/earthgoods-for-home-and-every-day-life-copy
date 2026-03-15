@@ -283,6 +283,42 @@ export default function Checkout() {
                     </RadioGroup>
                   </div>
 
+                  {/* Referral Code */}
+                  <div className="space-y-2">
+                    <Label>Referral Code (optional)</Label>
+                    {appliedCode ? (
+                      <div className="flex items-center justify-between bg-emerald-50 border border-emerald-300 rounded-xl px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <Tag className="w-4 h-4 text-emerald-600" />
+                          <span className="font-semibold text-emerald-700">{appliedCode.code}</span>
+                          <Badge className="bg-emerald-100 text-emerald-700 border-0">-{appliedCode.discount_percent}% off</Badge>
+                        </div>
+                        <button type="button" onClick={removeCode} className="text-stone-400 hover:text-stone-600">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Input
+                          value={refInput}
+                          onChange={(e) => { setRefInput(e.target.value.toUpperCase()); setRefError(''); }}
+                          placeholder="Enter referral code"
+                          className="h-12 rounded-xl uppercase"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => applyCode()}
+                          disabled={refLoading || !refInput.trim()}
+                          className="rounded-xl px-5 flex-shrink-0"
+                        >
+                          {refLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
+                        </Button>
+                      </div>
+                    )}
+                    {refError && <p className="text-sm text-red-500">{refError}</p>}
+                  </div>
+
                   <Button 
                     type="submit" 
                     disabled={loading}
