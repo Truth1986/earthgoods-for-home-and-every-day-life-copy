@@ -9,6 +9,7 @@ import { createPageUrl } from "@/utils";
 import CartDrawer from "@/components/CartDrawer";
 import ReviewSection from "@/components/product/ReviewSection";
 import FrequentlyBoughtTogether from "@/components/product/FrequentlyBoughtTogether";
+import SocialShareBar from "@/components/marketing/SocialShareBar";
 
 const categoryLabels = {
   homesteading: "Homesteading",
@@ -258,6 +259,16 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Social Share */}
+        <div className="mt-12">
+          <SocialShareBar
+            url={window.location.href}
+            title={`${product.title} — EarthGoods`}
+            description={product.description}
+            imageUrl={product.image_url}
+          />
         </div>
 
         {/* Frequently Bought Together */}
