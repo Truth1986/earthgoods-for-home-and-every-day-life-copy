@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, User, MapPin, ShoppingBag, ArrowLeft } from "lucide-react";
+import { Leaf, User, MapPin, ShoppingBag, ArrowLeft, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import OrderHistory from "@/components/dashboard/OrderHistory";
@@ -70,6 +70,10 @@ export default function CustomerDashboard() {
               <User className="w-4 h-4 mr-2" />
               Profile
             </TabsTrigger>
+            <TabsTrigger value="referrals" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              <Gift className="w-4 h-4 mr-2" />
+              Referrals
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="orders">
@@ -81,10 +85,11 @@ export default function CustomerDashboard() {
           </TabsContent>
 
           <TabsContent value="profile">
-            <div className="space-y-6">
-              <ProfileEditor user={user} />
-              <ReferralWidget user={user} />
-            </div>
+            <ProfileEditor user={user} />
+          </TabsContent>
+
+          <TabsContent value="referrals">
+            <ReferralWidget user={user} />
           </TabsContent>
         </Tabs>
       </div>
