@@ -90,11 +90,27 @@ export default function Checkout() {
       })),
       total: grandTotal,
       status: 'pending',
-      notes: `${form.notes ? form.notes + '\n' : ''}Shipping: ${shipping === 'overnight' ? 'Overnight (+20%)' : 'Standard'}`
+      notes: `${form.notes ? form.notes + '\n' : ''}Shipping: ${shipping === 'overnight' ? 'Overnight (+20%)' : 'Standard'}${appliedCode ? `\nReferral code: ${appliedCode.code}` : ''}`
     };
 
-    await base44.entities.Order.create(orderData);
-    
+    const order = await base44.entities.Order.create(orderData);
+
+    // If referral code was used, increment use count and create rewards
+    if (appliedCode) {
+      await base44.entities.ReferralCode.update(appliedCode.id, {
+        uses_count: (appliedCode.uses_count || 0) + 1
+      });
+      // Give referrer a reward (10% of order value)
+      await base44.entities.ReferralReward.create({
+        referrer_email: appliedCode.referrer_email,
+        referred_email: form.customer_email,
+        referral_code: appliedCode.code,
+        discount_amount: parseFloat((total * 0.10).toFixed(2)),
+        order_id: order.id,
+        status: 'pending',
+      });
+    }
+
     setOrderTotal(grandTotal);
     localStorage.removeItem('cart');
     setSuccess(true);
