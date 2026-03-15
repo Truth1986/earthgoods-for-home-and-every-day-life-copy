@@ -369,6 +369,15 @@ export default function Checkout() {
                     <span>Subtotal</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
+                  {appliedCode && (
+                    <div className="flex justify-between text-emerald-600 font-medium">
+                      <span className="flex items-center gap-1">
+                        <Tag className="w-3 h-3" />
+                        Referral Discount ({appliedCode.discount_percent}%)
+                      </span>
+                      <span>-${discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-stone-600">
                     <span className="flex items-center gap-1">
                       Platform Fee 
