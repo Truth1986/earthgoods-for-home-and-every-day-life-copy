@@ -118,6 +118,27 @@ export default function AdminDashboard() {
     }
   });
 
+  const fulfillOrder = useMutation({
+    mutationFn: async (order) => {
+      await base44.entities.Order.update(order.id, { status: 'shipped' });
+      await base44.integrations.Core.SendEmail({
+        to: order.customer_email,
+        subject: `Your EarthGoods order has been fulfilled! 🌿`,
+        body: `Hi ${order.customer_name},\n\nGreat news! Your order has been packed and is on its way to you.\n\nOrder Total: $${order.total?.toFixed(2)}\n\nItems:\n${order.items?.map(i => `- ${i.quantity}x ${i.title}`).join('\n')}\n\nShipping to:\n${order.customer_address}\n\nThank you for supporting EarthGoods!\n\n- The EarthGoods Team`
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['admin-orders']);
+      toast.success('Order marked as shipped & confirmation email sent!');
+    }
+  });
+
+  const copyShipping = (order) => {
+    const text = `${order.customer_name}\n${order.customer_address}`;
+    navigator.clipboard.writeText(text);
+    toast.success('Shipping details copied!');
+  };
+
   const resetForm = () => {
     setEditingProduct(null);
     setProductForm({
