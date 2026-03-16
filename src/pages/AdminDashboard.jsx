@@ -516,6 +516,7 @@ export default function AdminDashboard() {
                         <TableHead>Items</TableHead>
                         <TableHead>Total</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -528,6 +529,7 @@ export default function AdminDashboard() {
                             <div>
                               <p className="font-medium">{order.customer_name}</p>
                               <p className="text-sm text-stone-500">{order.customer_email}</p>
+                              <p className="text-xs text-stone-400 mt-1 max-w-[160px] truncate">{order.customer_address}</p>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -553,6 +555,30 @@ export default function AdminDashboard() {
                                 <SelectItem value="delivered">Delivered</SelectItem>
                               </SelectContent>
                             </Select>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="rounded-full text-xs"
+                                onClick={() => copyShipping(order)}
+                              >
+                                <Copy className="w-3 h-3 mr-1" />
+                                Copy Address
+                              </Button>
+                              {order.status !== 'shipped' && order.status !== 'delivered' && (
+                                <Button
+                                  size="sm"
+                                  className="rounded-full text-xs bg-emerald-600 hover:bg-emerald-700"
+                                  onClick={() => fulfillOrder.mutate(order)}
+                                  disabled={fulfillOrder.isPending}
+                                >
+                                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                                  Fulfill
+                                </Button>
+                              )}
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
