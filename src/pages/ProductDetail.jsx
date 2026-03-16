@@ -160,10 +160,25 @@ export default function ProductDetail() {
               {product.title}
             </h1>
             
-            <p className="text-4xl font-bold text-emerald-700 mb-6">
-              ${currentPrice?.toFixed(2)}
-              {selectedVariant && <span className="text-lg text-stone-500 ml-2">({selectedVariant.name})</span>}
-            </p>
+            <div className="flex items-center gap-4 mb-6 flex-wrap">
+              <p className="text-4xl font-bold text-emerald-700">
+                ${currentPrice?.toFixed(2)}
+                {selectedVariant && <span className="text-lg text-stone-500 ml-2">({selectedVariant.name})</span>}
+              </p>
+              {product.stock <= 0 ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700 border border-red-200">
+                  Out of Stock
+                </span>
+              ) : product.stock <= 3 ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700 border border-red-200 animate-pulse">
+                  🔥 Only {product.stock} left!
+                </span>
+              ) : product.stock <= 10 ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-amber-100 text-amber-700 border border-amber-200">
+                  ⚡ Limited Stock — only {product.stock} remaining
+                </span>
+              ) : null}
+            </div>
 
             <p className="text-stone-600 leading-relaxed mb-8 flex-1">
               {product.description || "A quality product for sustainable, simple living."}
