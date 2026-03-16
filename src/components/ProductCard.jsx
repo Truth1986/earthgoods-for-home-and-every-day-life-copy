@@ -150,12 +150,13 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
                 ) : (
                   <span className="text-lg font-bold text-emerald-700">${product.price?.toFixed(2)}</span>
                 )}
-                {product.stock <= 0 && (
+                {product.stock <= 0 ? (
                   <Badge variant="secondary" className="bg-red-100 text-red-700 text-xs">Out of stock</Badge>
-                )}
-                {product.stock > 0 && product.stock <= 5 && (
-                  <Badge variant="secondary" className="bg-orange-100 text-orange-700 text-xs">Only {product.stock} left</Badge>
-                )}
+                ) : product.stock <= 3 ? (
+                  <Badge variant="secondary" className="bg-red-100 text-red-700 text-xs animate-pulse">Only {product.stock} left!</Badge>
+                ) : product.stock <= 10 ? (
+                  <Badge variant="secondary" className="bg-amber-100 text-amber-700 text-xs">Limited Stock</Badge>
+                ) : null}
               </div>
               <Link to={createPageUrl(`ProductDetail?id=${product.id}`)}>
                 <Button 
@@ -193,11 +194,19 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
             <Badge className="bg-amber-500 text-white border-0">Featured</Badge>
           </div>
         )}
-        {product.stock <= 0 && (
+        {product.stock <= 0 ? (
           <div className="absolute bottom-3 left-3">
             <Badge className="bg-red-500 text-white border-0">Out of Stock</Badge>
           </div>
-        )}
+        ) : product.stock <= 3 ? (
+          <div className="absolute bottom-3 left-3">
+            <Badge className="bg-red-500 text-white border-0 animate-pulse">Only {product.stock} left!</Badge>
+          </div>
+        ) : product.stock <= 10 ? (
+          <div className="absolute bottom-3 left-3">
+            <Badge className="bg-amber-500 text-white border-0">Limited Stock</Badge>
+          </div>
+        ) : null}
         <button
           onClick={toggleWishlist}
           className={`absolute top-3 right-3 p-2 rounded-full transition-colors ${
