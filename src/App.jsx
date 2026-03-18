@@ -70,6 +70,8 @@ const AuthenticatedApp = () => {
       <Route path="/BlogPost" element={<BlogPost />} />
       <Route path="/BlogEditor" element={<BlogEditor />} />
       <Route path="/MarketingHub" element={<MarketingHub />} />
+      <Route path="/Recipes" element={<Recipes />} />
+      <Route path="/RecipeDetail" element={<RecipeDetail />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
