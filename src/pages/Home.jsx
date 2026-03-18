@@ -68,6 +68,9 @@ export default function Home() {
               Our Mission
             </Link>
           </nav>
+          <div className="hidden md:block">
+            <GlobalSearch />
+          </div>
           <Button 
             variant="outline" 
             className="relative rounded-full border-stone-200"
