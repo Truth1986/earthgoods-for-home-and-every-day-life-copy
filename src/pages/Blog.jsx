@@ -74,11 +74,14 @@ export default function Blog() {
             <Link to={createPageUrl('Blog')} className="text-emerald-700 font-medium">Blog</Link>
             <Link to={createPageUrl('About')} className="text-stone-600 hover:text-emerald-700 font-medium">Our Mission</Link>
           </nav>
-          <Link to={createPageUrl('Shop')}>
-            <Button variant="outline" className="rounded-full border-stone-200">
-              <ShoppingCart className="w-5 h-5" />
-            </Button>
-          </Link>
+          <div className="hidden md:flex items-center gap-3">
+            <GlobalSearch />
+            <Link to={createPageUrl('Shop')}>
+              <Button variant="outline" className="rounded-full border-stone-200">
+                <ShoppingCart className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 
