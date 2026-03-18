@@ -8,6 +8,7 @@ import { Leaf, Search, ArrowRight, Clock, Calendar, ShoppingCart, Heart } from "
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import moment from 'moment';
+import GlobalSearch from "@/components/GlobalSearch";
 
 const categoryLabels = {
   homesteading: "Homesteading",

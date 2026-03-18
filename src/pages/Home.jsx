@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 import OrderChatWidget from "@/components/chat/OrderChatWidget";
 import EmailCapturePopup from "@/components/marketing/EmailCapturePopup";
 import FooterEmailCapture from "@/components/marketing/FooterEmailCapture";
+import GlobalSearch from "@/components/GlobalSearch";
 
 export default function Home() {
   const [cart, setCart] = useState(() => {
