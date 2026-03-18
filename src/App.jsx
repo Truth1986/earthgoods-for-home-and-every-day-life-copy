@@ -12,6 +12,8 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BlogEditor from './pages/BlogEditor';
 import MarketingHub from './pages/MarketingHub';
+import Recipes from './pages/Recipes';
+import RecipeDetail from './pages/RecipeDetail';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
