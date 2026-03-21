@@ -34,6 +34,8 @@ import { Switch } from "@/components/ui/switch";
 import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers, LineChart } from "lucide-react";
 import BulkStockEditor from "@/components/admin/BulkStockEditor";
 import PackingSlip from "@/components/admin/PackingSlip";
+import DiscountCodeManager from "@/components/admin/DiscountCodeManager";
+import ProductImageUploader from "@/components/admin/ProductImageUploader";
 import { Dialog as PackingDialog, DialogContent as PackingDialogContent, DialogHeader as PackingDialogHeader, DialogTitle as PackingDialogTitle } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
