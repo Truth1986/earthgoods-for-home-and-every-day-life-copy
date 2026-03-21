@@ -20,6 +20,8 @@ import NewsletterCampaigns from './pages/NewsletterCampaigns';
 import NewsletterAnalytics from './pages/NewsletterAnalytics';
 import SalesOverview from './pages/SalesOverview';
 import InventoryDashboard from './pages/InventoryDashboard';
+import CommunityRecipes from './pages/CommunityRecipes';
+import SubmitRecipe from './pages/SubmitRecipe';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -84,6 +86,8 @@ const AuthenticatedApp = () => {
       <Route path="/NewsletterAnalytics" element={<NewsletterAnalytics />} />
       <Route path="/SalesOverview" element={<SalesOverview />} />
       <Route path="/InventoryDashboard" element={<InventoryDashboard />} />
+      <Route path="/CommunityRecipes" element={<CommunityRecipes />} />
+      <Route path="/SubmitRecipe" element={<SubmitRecipe />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
