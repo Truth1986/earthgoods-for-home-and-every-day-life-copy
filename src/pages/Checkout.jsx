@@ -47,11 +47,29 @@ export default function Checkout() {
     if (!code) return;
     setRefLoading(true);
     setRefError('');
-    const results = await base44.entities.ReferralCode.filter({ code, is_active: true });
-    if (results.length === 0) {
-      setRefError('Invalid or expired referral code.');
+
+    // Check referral codes first
+    const referralResults = await base44.entities.ReferralCode.filter({ code, is_active: true });
+    if (referralResults.length > 0) {
+      setAppliedCode({ ...referralResults[0], _type: 'referral' });
+      setRefLoading(false);
+      return;
+    }
+
+    // Check discount codes
+    const discountResults = await base44.entities.DiscountCode.filter({ code, is_active: true });
+    if (discountResults.length > 0) {
+      const dc = discountResults[0];
+      const now = new Date();
+      if (dc.expires_at && new Date(dc.expires_at) < now) {
+        setRefError('This discount code has expired.');
+      } else if (dc.max_uses && dc.uses_count >= dc.max_uses) {
+        setRefError('This discount code has reached its usage limit.');
+      } else {
+        setAppliedCode({ ...dc, _type: 'discount', discount_percent: dc.discount_type === 'percent' ? dc.discount_value : null, discount_fixed: dc.discount_type === 'fixed' ? dc.discount_value : null });
+      }
     } else {
-      setAppliedCode(results[0]);
+      setRefError('Invalid or expired code.');
     }
     setRefLoading(false);
   };
