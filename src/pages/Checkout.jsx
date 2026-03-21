@@ -81,7 +81,11 @@ export default function Checkout() {
   };
 
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const discountAmount = appliedCode ? total * (appliedCode.discount_percent / 100) : 0;
+  const discountAmount = appliedCode
+    ? appliedCode._type === 'discount' && appliedCode.discount_fixed
+      ? Math.min(appliedCode.discount_fixed, total)
+      : total * ((appliedCode.discount_percent || 0) / 100)
+    : 0;
   const discountedTotal = total - discountAmount;
   const fee = discountedTotal * 0.03;
   const shippingCost = shipping === 'overnight' ? discountedTotal * 0.20 : 0;
