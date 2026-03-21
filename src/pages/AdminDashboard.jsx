@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers, LineChart } from "lucide-react";
+import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers, LineChart, Tag } from "lucide-react";
 import BulkStockEditor from "@/components/admin/BulkStockEditor";
 import PackingSlip from "@/components/admin/PackingSlip";
 import DiscountCodeManager from "@/components/admin/DiscountCodeManager";
@@ -319,6 +319,10 @@ export default function AdminDashboard() {
             <TabsTrigger value="inventory">
               <Layers className="w-4 h-4 mr-1" />
               Inventory
+            </TabsTrigger>
+            <TabsTrigger value="discounts">
+              <Tag className="w-4 h-4 mr-1" />
+              Discount Codes
             </TabsTrigger>
           </TabsList>
 
