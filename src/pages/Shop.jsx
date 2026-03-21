@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 import AdvancedFilters from "@/components/shop/AdvancedFilters";
 import MobileNav from "@/components/MobileNav";
 import ActiveFilters from "@/components/shop/ActiveFilters";
+import RoomBrowser from "@/components/shop/RoomBrowser";
 import {
   Sheet,
   SheetContent,
