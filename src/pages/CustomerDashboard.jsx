@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, User, MapPin, ShoppingBag, ArrowLeft, Gift, Truck } from "lucide-react";
+import { Leaf, User, MapPin, ShoppingBag, ArrowLeft, Gift, Truck, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import OrderHistory from "@/components/dashboard/OrderHistory";
@@ -12,6 +12,7 @@ import OrderTracking from "@/components/dashboard/OrderTracking";
 import AddressManager from "@/components/dashboard/AddressManager";
 import ProfileEditor from "@/components/dashboard/ProfileEditor";
 import ReferralWidget from "@/components/marketing/ReferralWidget";
+import LoyaltyRewards from "@/components/dashboard/LoyaltyRewards";
 
 export default function CustomerDashboard() {
   const { data: user, isLoading } = useQuery({
@@ -79,6 +80,10 @@ export default function CustomerDashboard() {
               <Gift className="w-4 h-4 mr-2" />
               Referrals
             </TabsTrigger>
+            <TabsTrigger value="rewards" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              <Star className="w-4 h-4 mr-2" />
+              My Rewards
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="orders">
@@ -99,6 +104,10 @@ export default function CustomerDashboard() {
 
           <TabsContent value="referrals">
             <ReferralWidget user={user} />
+          </TabsContent>
+
+          <TabsContent value="rewards">
+            <LoyaltyRewards userEmail={user?.email} />
           </TabsContent>
         </Tabs>
       </div>
