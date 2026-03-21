@@ -197,7 +197,8 @@ export default function AdminDashboard() {
     const data = {
       ...productForm,
       price: parseFloat(productForm.price),
-      stock: parseInt(productForm.stock)
+      stock: parseInt(productForm.stock),
+      supplier_cost: productForm.supplier_cost ? parseFloat(productForm.supplier_cost) : undefined
     };
 
     if (editingProduct) {
