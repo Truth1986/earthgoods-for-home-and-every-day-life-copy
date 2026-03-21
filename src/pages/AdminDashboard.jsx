@@ -31,7 +31,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck } from "lucide-react";
+import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers } from "lucide-react";
+import BulkStockEditor from "@/components/admin/BulkStockEditor";
+import PackingSlip from "@/components/admin/PackingSlip";
+import { Dialog as PackingDialog, DialogContent as PackingDialogContent, DialogHeader as PackingDialogHeader, DialogTitle as PackingDialogTitle } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -74,6 +77,7 @@ export default function AdminDashboard() {
     supplier_cost: ''
   });
   const [newVariant, setNewVariant] = useState({ name: '', price: '' });
+  const [packingOrder, setPackingOrder] = useState(null);
 
   const { data: products = [], isLoading: loadingProducts } = useQuery({
     queryKey: ['admin-products'],
@@ -243,6 +247,12 @@ export default function AdminDashboard() {
                 Dropshipping
               </Button>
             </Link>
+            <Link to="/NewsletterCampaigns">
+              <Button variant="outline" className="rounded-full">
+                <Mail className="w-4 h-4 mr-2" />
+                Newsletter
+              </Button>
+            </Link>
             <Link to={createPageUrl('Home')}>
               <Button variant="outline" className="rounded-full">View Store</Button>
             </Link>
@@ -298,6 +308,10 @@ export default function AdminDashboard() {
           <TabsList className="bg-white border">
             <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="orders">Orders</TabsTrigger>
+            <TabsTrigger value="inventory">
+              <Layers className="w-4 h-4 mr-1" />
+              Inventory
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="products">
