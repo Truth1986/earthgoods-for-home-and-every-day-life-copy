@@ -14,6 +14,34 @@ const categories = {
   clothing: "Clothing",
 };
 
+const rooms = {
+  kitchen: "🍳 Kitchen",
+  bedroom: "🛏️ Bedroom",
+  bathroom: "🚿 Bathroom",
+  living_room: "🛋️ Living Room",
+  dining_room: "🍽️ Dining Room",
+  outdoor: "🌿 Outdoor",
+  garage: "🔧 Garage",
+  office: "💼 Office",
+  laundry: "👕 Laundry",
+  entryway: "🚪 Entryway",
+};
+
+const productTypes = {
+  cleaning: "Cleaning",
+  storage: "Storage",
+  decor: "Decor",
+  bedding: "Bedding",
+  cookware: "Cookware",
+  tools: "Tools",
+  lighting: "Lighting",
+  furniture: "Furniture",
+  personal_care: "Personal Care",
+  appliances: "Appliances",
+  textiles: "Textiles",
+  organizers: "Organizers",
+};
+
 export default function ActiveFilters({ filters, setFilters, maxPrice = 500 }) {
   const activeFilters = [];
 

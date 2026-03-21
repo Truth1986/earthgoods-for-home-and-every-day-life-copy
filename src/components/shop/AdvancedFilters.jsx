@@ -31,6 +31,34 @@ const categories = [
   { value: "clothing", label: "Clothing" },
 ];
 
+const rooms = [
+  { value: "kitchen", label: "🍳 Kitchen", icon: "🍳" },
+  { value: "bedroom", label: "🛏️ Bedroom", icon: "🛏️" },
+  { value: "bathroom", label: "🚿 Bathroom", icon: "🚿" },
+  { value: "living_room", label: "🛋️ Living Room", icon: "🛋️" },
+  { value: "dining_room", label: "🍽️ Dining Room", icon: "🍽️" },
+  { value: "outdoor", label: "🌿 Outdoor", icon: "🌿" },
+  { value: "garage", label: "🔧 Garage", icon: "🔧" },
+  { value: "office", label: "💼 Office", icon: "💼" },
+  { value: "laundry", label: "👕 Laundry", icon: "👕" },
+  { value: "entryway", label: "🚪 Entryway", icon: "🚪" },
+];
+
+const productTypes = [
+  { value: "cleaning", label: "Cleaning" },
+  { value: "storage", label: "Storage" },
+  { value: "decor", label: "Decor" },
+  { value: "bedding", label: "Bedding" },
+  { value: "cookware", label: "Cookware" },
+  { value: "tools", label: "Tools" },
+  { value: "lighting", label: "Lighting" },
+  { value: "furniture", label: "Furniture" },
+  { value: "personal_care", label: "Personal Care" },
+  { value: "appliances", label: "Appliances" },
+  { value: "textiles", label: "Textiles" },
+  { value: "organizers", label: "Organizers" },
+];
+
 const sortOptions = [
   { value: "relevance", label: "Most Relevant" },
   { value: "newest", label: "Newest First" },
