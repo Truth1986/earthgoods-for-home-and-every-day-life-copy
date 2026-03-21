@@ -67,6 +67,9 @@ export default function Home() {
             <Link to={createPageUrl('About')} className="text-stone-600 hover:text-emerald-700 transition-colors font-medium">
               Our Mission
             </Link>
+            <Link to="/TrackOrder" className="text-stone-600 hover:text-emerald-700 transition-colors font-medium">
+              Track Order
+            </Link>
           </nav>
           <div className="hidden md:block">
             <GlobalSearch />

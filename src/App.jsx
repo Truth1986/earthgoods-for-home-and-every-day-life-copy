@@ -14,6 +14,7 @@ import BlogEditor from './pages/BlogEditor';
 import MarketingHub from './pages/MarketingHub';
 import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
+import TrackOrder from './pages/TrackOrder';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -72,6 +73,7 @@ const AuthenticatedApp = () => {
       <Route path="/MarketingHub" element={<MarketingHub />} />
       <Route path="/Recipes" element={<Recipes />} />
       <Route path="/RecipeDetail" element={<RecipeDetail />} />
+      <Route path="/TrackOrder" element={<TrackOrder />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
