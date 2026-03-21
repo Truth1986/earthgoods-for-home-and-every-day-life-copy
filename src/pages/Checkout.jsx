@@ -80,16 +80,27 @@ export default function Checkout() {
     setRefError('');
   };
 
+  // Calculate totals with weight-based shipping
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalWeight = cart.reduce((sum, item) => sum + ((item.weight_oz || 0) * item.quantity), 0);
+  
   const discountAmount = appliedCode
     ? appliedCode._type === 'discount' && appliedCode.discount_fixed
       ? Math.min(appliedCode.discount_fixed, total)
       : total * ((appliedCode.discount_percent || 0) / 100)
     : 0;
+  
   const discountedTotal = total - discountAmount;
-  const fee = discountedTotal * 0.03;
-  const shippingCost = shipping === 'overnight' ? discountedTotal * 0.20 : 0;
-  const grandTotal = discountedTotal + fee + shippingCost;
+  const platformFee = discountedTotal * 0.03;
+  
+  // Shipping: $5 base + $0.50 per oz, doubled for overnight
+  const baseShipping = 5 + (totalWeight * 0.50);
+  const shippingCost = shipping === 'overnight' ? baseShipping * 2 : baseShipping;
+  
+  // Handling fee: $2.50 per package, plus $1 for each additional item beyond 1
+  const handlingFee = 2.50 + (cart.length > 1 ? (cart.length - 1) * 1 : 0);
+  
+  const grandTotal = discountedTotal + platformFee + shippingCost + handlingFee;
 
   // Check if running in iframe (checkout won't work there)
   const isInIframe = window.self !== window.top;
@@ -116,11 +127,18 @@ export default function Checkout() {
         product_id: item.id,
         title: item.title,
         price: item.price,
-        quantity: item.quantity
+        quantity: item.quantity,
+        weight_oz: item.weight_oz || 0
       })),
+      subtotal: total,
+      platform_fee: platformFee,
+      shipping_cost: shippingCost,
+      handling_fee: handlingFee,
+      shipping_method: shipping,
+      total_weight_oz: totalWeight,
       total: grandTotal,
       status: 'pending',
-      notes: `${form.notes ? form.notes + '\n' : ''}Shipping: ${shipping === 'overnight' ? 'Overnight (+20%)' : 'Standard'}${appliedCode ? `\nReferral code: ${appliedCode.code}` : ''}`
+      notes: `${form.notes ? form.notes + '\n' : ''}Shipping: ${shipping === 'overnight' ? 'Overnight (2x rate)' : 'Standard'}${appliedCode ? `\nReferral code: ${appliedCode.code}` : ''}`
     };
 
     const order = await base44.entities.Order.create(orderData);
@@ -461,13 +479,20 @@ export default function Checkout() {
                       Platform Fee 
                       <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">3%</span>
                     </span>
-                    <span>${fee.toFixed(2)}</span>
+                    <span>${platformFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-stone-600">
-                    <span>Shipping</span>
-                    <span>{shipping === 'overnight' ? `$${shippingCost.toFixed(2)}` : 'FREE'}</span>
+                    <span>Shipping & Handling</span>
+                    <div className="text-right text-sm">
+                      <p className="font-medium text-stone-700">${shippingCost.toFixed(2)}</p>
+                      <p className="text-xs text-stone-400">+${handlingFee.toFixed(2)} handling</p>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-xl font-bold text-stone-800 pt-2">
+                  <div className="flex justify-between text-stone-500 text-sm">
+                    <span>Weight: {totalWeight.toFixed(0)} oz</span>
+                    <span className="capitalize">{shipping} shipping</span>
+                  </div>
+                  <div className="flex justify-between text-xl font-bold text-stone-800 pt-2 border-t border-stone-200">
                     <span>Total</span>
                     <span>${grandTotal.toFixed(2)}</span>
                   </div>
