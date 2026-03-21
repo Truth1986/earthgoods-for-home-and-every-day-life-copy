@@ -139,6 +139,66 @@ export default function AdvancedFilters({
       </div>
 
       <Accordion type="multiple" defaultValue={["room", "product_type", "category", "price"]} className="space-y-2">
+        {/* Room */}
+        <AccordionItem value="room" className="border-b-0">
+          <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
+            Room
+          </AccordionTrigger>
+          <AccordionContent className="pt-2">
+            <div className="space-y-1 max-h-52 overflow-y-auto">
+              <div
+                className={`flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-colors ${
+                  (!filters.room || filters.room === 'all') ? 'bg-emerald-50 text-emerald-700 font-medium' : 'hover:bg-stone-50'
+                }`}
+                onClick={() => setFilters({...filters, room: 'all'})}
+              >
+                <span className="text-sm">All Rooms</span>
+              </div>
+              {rooms.map(r => (
+                <div
+                  key={r.value}
+                  className={`flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-colors ${
+                    filters.room === r.value ? 'bg-emerald-50 text-emerald-700 font-medium' : 'hover:bg-stone-50'
+                  }`}
+                  onClick={() => setFilters({...filters, room: r.value})}
+                >
+                  <span className="text-sm">{r.label}</span>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Product Type */}
+        <AccordionItem value="product_type" className="border-b-0">
+          <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
+            Product Type
+          </AccordionTrigger>
+          <AccordionContent className="pt-2">
+            <div className="space-y-1 max-h-52 overflow-y-auto">
+              <div
+                className={`flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-colors ${
+                  (!filters.product_type || filters.product_type === 'all') ? 'bg-emerald-50 text-emerald-700 font-medium' : 'hover:bg-stone-50'
+                }`}
+                onClick={() => setFilters({...filters, product_type: 'all'})}
+              >
+                <span className="text-sm">All Types</span>
+              </div>
+              {productTypes.map(t => (
+                <div
+                  key={t.value}
+                  className={`flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-colors ${
+                    filters.product_type === t.value ? 'bg-emerald-50 text-emerald-700 font-medium' : 'hover:bg-stone-50'
+                  }`}
+                  onClick={() => setFilters({...filters, product_type: t.value})}
+                >
+                  <span className="text-sm">{t.label}</span>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
         {/* Category */}
         <AccordionItem value="category" className="border-b-0">
           <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
