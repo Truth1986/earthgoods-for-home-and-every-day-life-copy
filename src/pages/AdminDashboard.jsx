@@ -68,7 +68,10 @@ export default function AdminDashboard() {
     image_url: '',
     stock: 1,
     featured: false,
-    variants: []
+    variants: [],
+    supplier_id: '',
+    supplier_sku: '',
+    supplier_cost: ''
   });
   const [newVariant, setNewVariant] = useState({ name: '', price: '' });
 
