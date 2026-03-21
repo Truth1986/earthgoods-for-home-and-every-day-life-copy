@@ -374,6 +374,49 @@ export default function AdminDashboard() {
                         <Label>Featured on homepage</Label>
                       </div>
 
+                      {/* Dropshipping */}
+                      {suppliers.length > 0 && (
+                        <div className="space-y-3 border-t pt-4">
+                          <Label className="text-stone-600 font-semibold">Dropshipping (optional)</Label>
+                          <div className="space-y-2">
+                            <Label>Supplier</Label>
+                            <Select value={productForm.supplier_id} onValueChange={(v) => setProductForm({...productForm, supplier_id: v})}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="None (self-fulfilled)" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value={null}>None (self-fulfilled)</SelectItem>
+                                {suppliers.map(s => (
+                                  <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          {productForm.supplier_id && (
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="space-y-2">
+                                <Label>Supplier SKU</Label>
+                                <Input
+                                  value={productForm.supplier_sku}
+                                  onChange={(e) => setProductForm({...productForm, supplier_sku: e.target.value})}
+                                  placeholder="e.g. SKU-1234"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Supplier Cost ($)</Label>
+                                <Input
+                                  type="number"
+                                  step="0.01"
+                                  value={productForm.supplier_cost}
+                                  onChange={(e) => setProductForm({...productForm, supplier_cost: e.target.value})}
+                                  placeholder="0.00"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       {/* Variants */}
                       <div className="space-y-3 border-t pt-4">
                         <Label>Size/Quantity Variants (optional)</Label>
