@@ -15,6 +15,7 @@ import MarketingHub from './pages/MarketingHub';
 import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import TrackOrder from './pages/TrackOrder';
+import DropshippingDashboard from './pages/DropshippingDashboard';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
