@@ -141,27 +141,30 @@ export default function Checkout() {
   if (success) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-stone-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md">
+        <div className="text-center max-w-md w-full">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-100 flex items-center justify-center">
             <Check className="w-10 h-10 text-emerald-600" />
           </div>
           <h2 className="text-3xl font-bold text-stone-800 mb-4">Order Placed!</h2>
           <p className="text-stone-600 mb-4">
-            Thank you for your order! Please complete payment via PayPal:
+            Thank you! Please complete your payment of <span className="font-bold text-stone-800">${orderTotal.toFixed(2)}</span> via PayPal:
           </p>
           
           <Card className="border-2 border-blue-200 bg-blue-50 mb-6">
-            <CardContent className="pt-6">
-              <p className="text-2xl font-bold text-stone-800 mb-4">${orderTotal.toFixed(2)}</p>
+            <CardContent className="pt-6 space-y-3">
+              {/* Primary PayPal.me button */}
               <a 
-                href={`https://paypal.me/tracieruth281/${orderTotal.toFixed(2)}`}
+                href={`https://www.paypal.com/paypalme/tracieruth281/${orderTotal.toFixed(2)}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="block"
               >
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 rounded-full h-12 text-lg mb-3">
-                  Pay with PayPal
-                </Button>
+                <button className="w-full h-14 rounded-full text-lg font-bold flex items-center justify-center gap-3" style={{background: '#003087', color: '#fff'}}>
+                  <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.825l-1.273 8.05h3.51l.922-5.832c.082-.518.526-.9 1.05-.9h.663c4.299 0 7.664-1.747 8.647-6.797.021-.106.04-.21.057-.316z"/></svg>
+                  Pay ${orderTotal.toFixed(2)} with PayPal
+                </button>
               </a>
+
               <Button 
                 variant="outline" 
                 className="w-full rounded-full"
@@ -170,12 +173,12 @@ export default function Checkout() {
                 <Copy className="w-4 h-4 mr-2" />
                 Copy PayPal Link
               </Button>
-              <p className="text-sm text-stone-500 mt-3">paypal.me/tracieruth281</p>
+              <p className="text-xs text-stone-400">paypal.me/tracieruth281</p>
             </CardContent>
           </Card>
 
           <p className="text-stone-500 text-sm mb-6">
-            After payment, your order will be processed and shipped.
+            After payment, your order will be processed and shipped within 1-2 business days.
           </p>
           
           <Link to={createPageUrl('Shop')}>
