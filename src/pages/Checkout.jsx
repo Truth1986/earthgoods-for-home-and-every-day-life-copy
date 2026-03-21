@@ -70,8 +70,16 @@ export default function Checkout() {
   const shippingCost = shipping === 'overnight' ? discountedTotal * 0.20 : 0;
   const grandTotal = discountedTotal + fee + shippingCost;
 
+  // Check if running in iframe (checkout won't work there)
+  const isInIframe = window.self !== window.top;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isInIframe) {
+      alert('Stripe checkout only works from the published app. Please open the app in a new tab.');
+      return;
+    }
     
     if (!form.customer_name || !form.customer_email || !form.customer_address) {
       toast.error('Please fill in all required fields');
@@ -80,6 +88,7 @@ export default function Checkout() {
 
     setLoading(true);
 
+    // Save order to DB first
     const orderData = {
       ...form,
       items: cart.map(item => ({
@@ -95,7 +104,7 @@ export default function Checkout() {
 
     const order = await base44.entities.Order.create(orderData);
 
-    // Decrement inventory for each item ordered
+    // Decrement inventory
     await Promise.all(
       cart.map(async (item) => {
         const products = await base44.entities.Product.filter({ id: item.id });
@@ -107,12 +116,11 @@ export default function Checkout() {
       })
     );
 
-    // If referral code was used, increment use count and create rewards
+    // Handle referral rewards
     if (appliedCode) {
       await base44.entities.ReferralCode.update(appliedCode.id, {
         uses_count: (appliedCode.uses_count || 0) + 1
       });
-      // Give referrer a reward (10% of order value)
       await base44.entities.ReferralReward.create({
         referrer_email: appliedCode.referrer_email,
         referred_email: form.customer_email,
@@ -123,10 +131,30 @@ export default function Checkout() {
       });
     }
 
-    setOrderTotal(grandTotal);
-    localStorage.removeItem('cart');
-    setSuccess(true);
-    setLoading(false);
+    // Create Stripe checkout session and redirect
+    const response = await base44.functions.invoke('createCheckoutSession', {
+      items: cart.map(item => ({
+        product_id: item.id,
+        title: item.title,
+        price: item.price,
+        quantity: item.quantity,
+        image_url: item.image_url || null,
+      })),
+      customer_email: form.customer_email,
+      shipping,
+      appliedCode: appliedCode?.code || null,
+      discountPercent: appliedCode?.discount_percent || 0,
+      successUrl: `${window.location.origin}/Checkout?success=true&order=${order.id}`,
+      cancelUrl: `${window.location.origin}/Checkout`,
+    });
+
+    if (response.data?.url) {
+      localStorage.removeItem('cart');
+      window.location.href = response.data.url;
+    } else {
+      toast.error('Failed to start checkout. Please try again.');
+      setLoading(false);
+    }
   };
 
   if (cart.length === 0 && !success) {
