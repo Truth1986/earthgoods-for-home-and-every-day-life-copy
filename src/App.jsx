@@ -22,6 +22,7 @@ import SalesOverview from './pages/SalesOverview';
 import InventoryDashboard from './pages/InventoryDashboard';
 import CommunityRecipes from './pages/CommunityRecipes';
 import SubmitRecipe from './pages/SubmitRecipe';
+import ProductsManagement from './pages/ProductsManagement';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -88,6 +89,7 @@ const AuthenticatedApp = () => {
       <Route path="/InventoryDashboard" element={<InventoryDashboard />} />
       <Route path="/CommunityRecipes" element={<CommunityRecipes />} />
       <Route path="/SubmitRecipe" element={<SubmitRecipe />} />
+      <Route path="/ProductsManagement" element={<ProductsManagement />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
