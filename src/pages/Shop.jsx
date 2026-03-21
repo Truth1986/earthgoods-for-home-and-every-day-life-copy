@@ -9,6 +9,7 @@ import { createPageUrl } from "@/utils";
 import ProductCard from "@/components/ProductCard";
 import CartDrawer from "@/components/CartDrawer";
 import AdvancedFilters from "@/components/shop/AdvancedFilters";
+import MobileNav from "@/components/MobileNav";
 import ActiveFilters from "@/components/shop/ActiveFilters";
 import {
   Sheet,
