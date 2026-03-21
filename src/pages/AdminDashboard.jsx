@@ -591,6 +591,20 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="discounts">
+            <Card className="border-0 shadow-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Tag className="w-5 h-5 text-emerald-600" />
+                  Discount Codes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <DiscountCodeManager />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="orders">
             <Card className="border-0 shadow-sm">
               <CardHeader>
