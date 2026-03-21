@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2 } from "lucide-react";
+import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
