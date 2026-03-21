@@ -37,7 +37,16 @@ export default function ProductDetail() {
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    const cartToSave = cart.map(item => ({
+      id: item.id,
+      productId: item.productId,
+      title: item.title,
+      price: item.price,
+      image_url: item.image_url,
+      quantity: item.quantity,
+      variantName: item.variantName,
+    }));
+    localStorage.setItem('cart', JSON.stringify(cartToSave));
   }, [cart]);
 
   const { data: product, isLoading } = useQuery({
