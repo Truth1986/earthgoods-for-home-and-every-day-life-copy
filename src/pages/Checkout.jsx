@@ -436,69 +436,76 @@ export default function Checkout() {
 
           {/* Order Summary */}
           <div className="md:col-span-2">
-            <Card className="border-0 shadow-lg sticky top-24">
-              <CardHeader>
-                <CardTitle className="text-lg">Order Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {cart.map(item => (
-                  <div key={item.id} className="flex gap-3">
-                    <div className="w-14 h-14 rounded-lg bg-stone-100 overflow-hidden flex-shrink-0">
-                      {item.image_url ? (
-                        <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Leaf className="w-5 h-5 text-stone-300" />
-                        </div>
-                      )}
+            <div className="sticky top-24 space-y-4">
+              {/* Totals Summary Card */}
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-amber-50">
+                <CardContent className="pt-6">
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-stone-600">Subtotal</span>
+                      <span className="font-medium text-stone-800">${total.toFixed(2)}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-stone-800 truncate text-sm">{item.title}</p>
-                      <p className="text-stone-500 text-sm">Qty: {item.quantity}</p>
-                    </div>
-                    <p className="font-semibold text-stone-800">${(item.price * item.quantity).toFixed(2)}</p>
-                  </div>
-                ))}
-
-                <div className="border-t border-stone-200 pt-4 mt-4 space-y-2">
-                  <div className="flex justify-between text-stone-600">
-                    <span>Subtotal</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-                  {appliedCode && (
-                    <div className="flex justify-between text-emerald-600 font-medium">
-                      <span className="flex items-center gap-1">
-                        <Tag className="w-3 h-3" />
-                        Referral Discount ({appliedCode.discount_percent}%)
+                    {appliedCode && (
+                      <div className="flex justify-between text-sm text-emerald-600">
+                        <span className="flex items-center gap-1">
+                          <Tag className="w-3 h-3" />
+                          Referral Discount
+                        </span>
+                        <span className="font-medium">-${discountAmount.toFixed(2)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm border-t border-stone-200 pt-3">
+                      <span className="text-stone-600 flex items-center gap-1">
+                        Platform Fee <span className="text-xs bg-white px-1.5 py-0.5 rounded text-emerald-700">3%</span>
                       </span>
-                      <span>-${discountAmount.toFixed(2)}</span>
+                      <span className="font-medium text-stone-800">${platformFee.toFixed(2)}</span>
                     </div>
-                  )}
-                  <div className="flex justify-between text-stone-600">
-                    <span className="flex items-center gap-1">
-                      Platform Fee 
-                      <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">3%</span>
-                    </span>
-                    <span>${platformFee.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-stone-600">
-                    <span>Shipping & Handling</span>
-                    <div className="text-right text-sm">
-                      <p className="font-medium text-stone-700">${shippingCost.toFixed(2)}</p>
-                      <p className="text-xs text-stone-400">+${handlingFee.toFixed(2)} handling</p>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-stone-600">Shipping</span>
+                      <span className="font-medium text-stone-800">${shippingCost.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-stone-600">Handling Fee</span>
+                      <span className="font-medium text-stone-800">${handlingFee.toFixed(2)}</span>
+                    </div>
+                    <div className="text-xs text-stone-500 px-3 py-2 bg-white rounded-lg">
+                      📦 Weight: {totalWeight.toFixed(0)} oz | {shipping === 'overnight' ? '⚡ Overnight' : '🚚 Standard'}
+                    </div>
+                    <div className="flex justify-between text-2xl font-bold pt-3 border-t-2 border-stone-300">
+                      <span className="text-stone-800">Total Due</span>
+                      <span className="text-emerald-700">${grandTotal.toFixed(2)}</span>
                     </div>
                   </div>
-                  <div className="flex justify-between text-stone-500 text-sm">
-                    <span>Weight: {totalWeight.toFixed(0)} oz</span>
-                    <span className="capitalize">{shipping} shipping</span>
-                  </div>
-                  <div className="flex justify-between text-xl font-bold text-stone-800 pt-2 border-t border-stone-200">
-                    <span>Total</span>
-                    <span>${grandTotal.toFixed(2)}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+
+              {/* Items List */}
+              <Card className="border-0 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-sm">Items ({cart.length})</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 max-h-80 overflow-y-auto">
+                  {cart.map(item => (
+                    <div key={item.id} className="flex gap-3 pb-3 border-b border-stone-100 last:border-0">
+                      <div className="w-12 h-12 rounded-lg bg-stone-100 overflow-hidden flex-shrink-0">
+                        {item.image_url ? (
+                          <img src={item.image_url} alt={item.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Leaf className="w-4 h-4 text-stone-300" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-stone-800 text-sm truncate">{item.title}</p>
+                        <p className="text-xs text-stone-500">Qty: {item.quantity}</p>
+                      </div>
+                      <p className="font-semibold text-stone-800 text-sm whitespace-nowrap">${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
