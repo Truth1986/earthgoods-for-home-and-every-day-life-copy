@@ -95,6 +95,18 @@ export default function Checkout() {
 
     const order = await base44.entities.Order.create(orderData);
 
+    // Decrement inventory for each item ordered
+    await Promise.all(
+      cart.map(async (item) => {
+        const products = await base44.entities.Product.filter({ id: item.id });
+        if (products.length > 0) {
+          const product = products[0];
+          const newStock = Math.max(0, (product.stock || 0) - item.quantity);
+          await base44.entities.Product.update(product.id, { stock: newStock });
+        }
+      })
+    );
+
     // If referral code was used, increment use count and create rewards
     if (appliedCode) {
       await base44.entities.ReferralCode.update(appliedCode.id, {
