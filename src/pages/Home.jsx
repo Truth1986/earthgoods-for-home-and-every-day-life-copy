@@ -13,6 +13,7 @@ import EmailCapturePopup from "@/components/marketing/EmailCapturePopup";
 import FooterEmailCapture from "@/components/marketing/FooterEmailCapture";
 import GlobalSearch from "@/components/GlobalSearch";
 import MobileNav from "@/components/MobileNav";
+import NewsletterSignupForm from "@/components/newsletter/NewsletterSignupForm";
 
 export default function Home() {
   const [cart, setCart] = useState(() => {
@@ -211,7 +212,7 @@ export default function Home() {
               <p className="text-sm">Made with love for simple living folks everywhere.</p>
             </div>
             <div>
-              <FooterEmailCapture source="footer" />
+              <NewsletterSignupForm />
             </div>
           </div>
           <p className="text-sm text-center">© 2026 EarthGoods. All rights reserved.</p>
