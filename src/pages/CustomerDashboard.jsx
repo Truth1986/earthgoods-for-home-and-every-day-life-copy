@@ -85,6 +85,10 @@ export default function CustomerDashboard() {
             <OrderHistory />
           </TabsContent>
 
+          <TabsContent value="tracking">
+            <OrderTracking />
+          </TabsContent>
+
           <TabsContent value="addresses">
             <AddressManager />
           </TabsContent>
