@@ -112,9 +112,30 @@ export default function CartDrawer({ open, onClose, cart, setCart }) {
                 </div>
                 <Link to={createPageUrl('Checkout')} onClick={onClose}>
                   <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-full h-12 text-lg mt-2">
-                    Checkout
+                    Checkout with Card
                   </Button>
                 </Link>
+                <div className="relative flex items-center gap-3 mt-3">
+                  <div className="flex-1 border-t border-stone-200" />
+                  <span className="text-xs text-stone-400">or</span>
+                  <div className="flex-1 border-t border-stone-200" />
+                </div>
+                <a
+                  href={`https://www.paypal.com/paypalme/tracieruth281/${grandTotal.toFixed(2)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClose}
+                  className="block w-full mt-3"
+                >
+                  <button
+                    type="button"
+                    className="w-full h-12 rounded-full text-base font-bold flex items-center justify-center gap-2"
+                    style={{ background: '#003087', color: '#fff' }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.825l-1.273 8.05h3.51l.922-5.832c.082-.518.526-.9 1.05-.9h.663c4.299 0 7.664-1.747 8.647-6.797.021-.106.04-.21.057-.316z"/></svg>
+                    Pay ${grandTotal.toFixed(2)} with PayPal
+                  </button>
+                </a>
               </div>
             </>
           )}
