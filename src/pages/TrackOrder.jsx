@@ -33,6 +33,29 @@ export default function TrackOrder() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [trackingData, setTrackingData] = useState(null);
+  const [loadingTracking, setLoadingTracking] = useState(false);
+
+  const fetchTrackingData = useCallback(async (orderToTrack) => {
+    if (!orderToTrack.tracking_number || !orderToTrack.carrier) {
+      setTrackingData(null);
+      return;
+    }
+
+    setLoadingTracking(true);
+    try {
+      const response = await base44.functions.invoke('trackShipment', {
+        tracking_number: orderToTrack.tracking_number,
+        carrier: orderToTrack.carrier,
+      });
+      setTrackingData(response.data);
+    } catch (err) {
+      console.error('Tracking fetch error:', err);
+      setTrackingData(null);
+    } finally {
+      setLoadingTracking(false);
+    }
+  }, []);
 
   const fetchOrder = useCallback(async (emailVal, orderIdVal, silent = false) => {
     if (silent) setRefreshing(true);
@@ -46,14 +69,21 @@ export default function TrackOrder() {
 
     if (!found) {
       if (!silent) setError('No order found with that email and order ID. Please double-check and try again.');
+      setTrackingData(null);
     } else {
       setOrder(found);
       setLastUpdated(new Date());
+      // Fetch tracking data if available
+      if (found.tracking_number && found.carrier) {
+        fetchTrackingData(found);
+      } else {
+        setTrackingData(null);
+      }
     }
 
     if (silent) setRefreshing(false);
     else setLoading(false);
-  }, []);
+  }, [fetchTrackingData]);
 
   // Auto-refresh every 60s if order is in-transit
   useEffect(() => {
@@ -63,6 +93,13 @@ export default function TrackOrder() {
     }, 60000);
     return () => clearInterval(interval);
   }, [order, email, orderId, fetchOrder]);
+
+  // Refresh tracking data when order changes
+  useEffect(() => {
+    if (order?.tracking_number && order?.carrier) {
+      fetchTrackingData(order);
+    }
+  }, [order?.id]);
 
   // Check URL params for pre-fill
   useEffect(() => {
@@ -277,6 +314,45 @@ export default function TrackOrder() {
                 </div>
               )}
 
+              {/* Tracking Number */}
+              {order.tracking_number && (
+                <div>
+                  <p className="text-sm font-semibold text-stone-700 mb-2 flex items-center gap-2">
+                    <Package className="w-4 h-4 text-stone-400" />
+                    Tracking Information
+                  </p>
+                  <div className="bg-stone-50 rounded-xl p-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-stone-600">Carrier</span>
+                      <span className="text-sm font-medium text-stone-800 capitalize">{order.carrier || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-stone-600">Tracking Number</span>
+                      <span className="text-sm font-mono text-stone-800">{order.tracking_number}</span>
+                    </div>
+                    {trackingData && (
+                      <div className="pt-2 border-t border-stone-200">
+                        <p className="text-xs text-stone-500 mb-2">Latest Update from {trackingData.carrier || order.carrier}</p>
+                        {trackingData.status ? (
+                          <div className="text-xs text-stone-700">
+                            <p className="font-medium">{trackingData.status[0]?.location || 'Location pending'}</p>
+                            <p className="text-stone-500">{trackingData.status[0]?.status || trackingData.status[0]?.description || 'Status unknown'}</p>
+                          </div>
+                        ) : (
+                          <p className="text-xs text-stone-500">Tracking details not yet available from carrier</p>
+                        )}
+                      </div>
+                    )}
+                    {loadingTracking && (
+                      <div className="flex items-center gap-2 text-xs text-stone-500">
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Fetching carrier updates...
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Shipping Address */}
               {order.customer_address && (
                 <div className="flex gap-3">
@@ -287,9 +363,9 @@ export default function TrackOrder() {
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        )}
+              </div>
+              </div>
+              )}
 
         {/* Help text */}
         {!order && !loading && (
