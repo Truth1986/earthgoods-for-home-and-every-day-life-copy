@@ -166,7 +166,7 @@ export default function LoyaltyRewards({ userEmail }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {loyalty?.tier === 'platinum' && (
+          {loyalty?.tier === 'platinum' ? (
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2 text-purple-700">
                 <Zap className="w-4 h-4" />
