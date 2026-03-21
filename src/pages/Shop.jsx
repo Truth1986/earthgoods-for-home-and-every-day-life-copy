@@ -216,7 +216,7 @@ export default function Shop() {
           </nav>
           <Button 
             variant="outline" 
-            className="relative rounded-full border-stone-200"
+            className="relative rounded-full border-stone-200 hidden md:flex"
             onClick={() => setCartOpen(true)}
           >
             <ShoppingCart className="w-5 h-5" />
@@ -226,6 +226,7 @@ export default function Shop() {
               </span>
             )}
           </Button>
+          <MobileNav cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
         </div>
       </header>
 
