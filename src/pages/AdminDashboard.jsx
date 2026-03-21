@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers } from "lucide-react";
+import { Leaf, Plus, Package, ShoppingBag, DollarSign, Pencil, Trash2, Loader2, BarChart3, Copy, CheckCircle2, Truck, Mail, Layers, LineChart } from "lucide-react";
 import BulkStockEditor from "@/components/admin/BulkStockEditor";
 import PackingSlip from "@/components/admin/PackingSlip";
 import { Dialog as PackingDialog, DialogContent as PackingDialogContent, DialogHeader as PackingDialogHeader, DialogTitle as PackingDialogTitle } from "@/components/ui/dialog";
@@ -251,6 +251,12 @@ export default function AdminDashboard() {
               <Button variant="outline" className="rounded-full">
                 <Mail className="w-4 h-4 mr-2" />
                 Newsletter
+              </Button>
+            </Link>
+            <Link to="/NewsletterAnalytics">
+              <Button variant="outline" className="rounded-full">
+                <LineChart className="w-4 h-4 mr-2" />
+                NL Analytics
               </Button>
             </Link>
             <Link to={createPageUrl('Home')}>
