@@ -237,6 +237,12 @@ export default function AdminDashboard() {
                 Analytics
               </Button>
             </Link>
+            <Link to="/DropshippingDashboard">
+              <Button variant="outline" className="rounded-full">
+                <Truck className="w-4 h-4 mr-2" />
+                Dropshipping
+              </Button>
+            </Link>
             <Link to={createPageUrl('Home')}>
               <Button variant="outline" className="rounded-full">View Store</Button>
             </Link>
