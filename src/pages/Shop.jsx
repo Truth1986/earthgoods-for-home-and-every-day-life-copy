@@ -345,6 +345,8 @@ export default function Shop() {
                   onClick={() => setFilters({
                     search: '',
                     category: 'all',
+                    room: 'all',
+                    product_type: 'all',
                     brand: 'all',
                     minRating: 0,
                     inStockOnly: false,
