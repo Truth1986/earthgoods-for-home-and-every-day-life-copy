@@ -167,7 +167,10 @@ export default function AdminDashboard() {
       image_url: product.image_url || '',
       stock: product.stock || 1,
       featured: product.featured || false,
-      variants: product.variants || []
+      variants: product.variants || [],
+      supplier_id: product.supplier_id || '',
+      supplier_sku: product.supplier_sku || '',
+      supplier_cost: product.supplier_cost?.toString() || ''
     });
     setProductDialog(true);
   };
