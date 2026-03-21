@@ -16,6 +16,7 @@ import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import TrackOrder from './pages/TrackOrder';
 import DropshippingDashboard from './pages/DropshippingDashboard';
+import NewsletterCampaigns from './pages/NewsletterCampaigns';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -76,6 +77,7 @@ const AuthenticatedApp = () => {
       <Route path="/RecipeDetail" element={<RecipeDetail />} />
       <Route path="/TrackOrder" element={<TrackOrder />} />
       <Route path="/DropshippingDashboard" element={<DropshippingDashboard />} />
+      <Route path="/NewsletterCampaigns" element={<NewsletterCampaigns />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
