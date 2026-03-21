@@ -58,10 +58,14 @@ export default function CustomerDashboard() {
 
         {/* Dashboard Tabs */}
         <Tabs defaultValue="orders" className="space-y-6">
-          <TabsList className="bg-white border border-stone-200 p-1 rounded-full">
+          <TabsList className="bg-white border border-stone-200 p-1 rounded-full flex-wrap gap-1">
             <TabsTrigger value="orders" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
               <ShoppingBag className="w-4 h-4 mr-2" />
               Orders
+            </TabsTrigger>
+            <TabsTrigger value="tracking" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+              <Truck className="w-4 h-4 mr-2" />
+              Track Orders
             </TabsTrigger>
             <TabsTrigger value="addresses" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
               <MapPin className="w-4 h-4 mr-2" />
