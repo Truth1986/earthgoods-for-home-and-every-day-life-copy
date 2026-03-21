@@ -266,6 +266,17 @@ export default function ProductDetail() {
                 )}
               </Button>
 
+              {/* PayPal badge */}
+              <a
+                href="https://www.paypal.com/paypalme/tracieruth281"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors"
+              >
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#003087]"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.825l-1.273 8.05h3.51l.922-5.832c.082-.518.526-.9 1.05-.9h.663c4.299 0 7.664-1.747 8.647-6.797.021-.106.04-.21.057-.316z"/></svg>
+                <span className="text-blue-800 font-medium text-sm">Pay securely via PayPal at checkout</span>
+              </a>
+
               {/* Low fee badge */}
               <div className="bg-amber-50 rounded-2xl p-4 text-center">
                 <p className="text-amber-800 text-sm">

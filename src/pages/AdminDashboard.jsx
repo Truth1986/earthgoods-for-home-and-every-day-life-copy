@@ -685,6 +685,18 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Packing Slip Dialog */}
+      {packingOrder && (
+        <PackingDialog open={!!packingOrder} onOpenChange={() => setPackingOrder(null)}>
+          <PackingDialogContent className="max-w-2xl">
+            <PackingDialogHeader>
+              <PackingDialogTitle>Packing Slip — #{packingOrder.id.slice(-6).toUpperCase()}</PackingDialogTitle>
+            </PackingDialogHeader>
+            <PackingSlip order={packingOrder} onClose={() => setPackingOrder(null)} />
+          </PackingDialogContent>
+        </PackingDialog>
+      )}
     </div>
   );
 }
