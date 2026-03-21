@@ -17,6 +17,7 @@ import RecipeDetail from './pages/RecipeDetail';
 import TrackOrder from './pages/TrackOrder';
 import DropshippingDashboard from './pages/DropshippingDashboard';
 import NewsletterCampaigns from './pages/NewsletterCampaigns';
+import NewsletterAnalytics from './pages/NewsletterAnalytics';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -78,6 +79,7 @@ const AuthenticatedApp = () => {
       <Route path="/TrackOrder" element={<TrackOrder />} />
       <Route path="/DropshippingDashboard" element={<DropshippingDashboard />} />
       <Route path="/NewsletterCampaigns" element={<NewsletterCampaigns />} />
+      <Route path="/NewsletterAnalytics" element={<NewsletterAnalytics />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
