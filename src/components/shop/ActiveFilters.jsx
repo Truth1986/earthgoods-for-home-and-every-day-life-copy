@@ -62,6 +62,24 @@ export default function ActiveFilters({ filters, setFilters, maxPrice = 500 }) {
     });
   }
 
+  if (filters.room && filters.room !== 'all') {
+    activeFilters.push({
+      key: 'room',
+      label: rooms[filters.room] || filters.room,
+      color: 'bg-teal-100 text-teal-800',
+      onRemove: () => setFilters({ ...filters, room: 'all' })
+    });
+  }
+
+  if (filters.product_type && filters.product_type !== 'all') {
+    activeFilters.push({
+      key: 'product_type',
+      label: productTypes[filters.product_type] || filters.product_type,
+      color: 'bg-indigo-100 text-indigo-800',
+      onRemove: () => setFilters({ ...filters, product_type: 'all' })
+    });
+  }
+
   if (filters.brand !== 'all') {
     activeFilters.push({
       key: 'brand',

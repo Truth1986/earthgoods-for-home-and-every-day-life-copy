@@ -77,6 +77,8 @@ export default function AdvancedFilters({
 }) {
   const activeFilterCount = [
     filters.category !== 'all',
+    filters.room !== 'all',
+    filters.product_type !== 'all',
     filters.brand !== 'all',
     filters.minRating > 0,
     filters.inStockOnly,
@@ -87,6 +89,8 @@ export default function AdvancedFilters({
     setFilters({
       ...filters,
       category: 'all',
+      room: 'all',
+      product_type: 'all',
       brand: 'all',
       minRating: 0,
       inStockOnly: false,
