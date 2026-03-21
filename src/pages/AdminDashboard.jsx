@@ -390,14 +390,10 @@ export default function AdminDashboard() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="space-y-2">
-                        <Label>Image URL</Label>
-                        <Input 
-                          value={productForm.image_url}
-                          onChange={(e) => setProductForm({...productForm, image_url: e.target.value})}
-                          placeholder="https://..."
-                        />
-                      </div>
+                      <ProductImageUploader
+                        value={productForm.image_url}
+                        onChange={(url) => setProductForm({...productForm, image_url: url})}
+                      />
                       <div className="flex items-center gap-2">
                         <Switch 
                           checked={productForm.featured}
