@@ -3,7 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Leaf, ShoppingCart, ArrowLeft, Minus, Plus, Check } from "lucide-react";
+import { Leaf, ShoppingCart, ArrowLeft, Minus, Plus, Check, Heart } from "lucide-react";
+import { useState as useStateImport } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import CartDrawer from "@/components/CartDrawer";
@@ -35,6 +36,39 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Check if product is in wishlist
+  useEffect(() => {
+    const checkWishlist = async () => {
+      if (!productId) return;
+      const wishlist = await base44.entities.Wishlist.filter({ product_id: productId });
+      setIsSaved(wishlist.length > 0);
+    };
+    checkWishlist();
+  }, [productId]);
+
+  const toggleWishlist = async () => {
+    if (!product) return;
+    
+    if (isSaved) {
+      // Remove from wishlist
+      const wishlist = await base44.entities.Wishlist.filter({ product_id: product.id });
+      if (wishlist.length > 0) {
+        await base44.entities.Wishlist.delete(wishlist[0].id);
+        setIsSaved(false);
+      }
+    } else {
+      // Add to wishlist
+      await base44.entities.Wishlist.create({
+        product_id: product.id,
+        product_title: product.title,
+        product_image_url: product.image_url,
+        product_price: currentPrice
+      });
+      setIsSaved(true);
+    }
+  };
 
   useEffect(() => {
     const cartToSave = cart.map(item => ({
@@ -252,28 +286,41 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Add to Cart */}
-              <Button 
-                onClick={addToCart}
-                disabled={added}
-                className={`w-full h-14 rounded-full text-lg font-semibold transition-all ${
-                  added 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                }`}
-              >
-                {added ? (
-                  <>
-                    <Check className="w-5 h-5 mr-2" />
-                    Added to Cart!
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    Add to Cart
-                  </>
-                )}
-              </Button>
+              {/* Add to Cart + Save for Later */}
+              <div className="flex gap-3">
+                <Button 
+                  onClick={addToCart}
+                  disabled={added}
+                  className={`flex-1 h-14 rounded-full text-lg font-semibold transition-all ${
+                    added 
+                      ? 'bg-emerald-600 text-white' 
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                  }`}
+                >
+                  {added ? (
+                    <>
+                      <Check className="w-5 h-5 mr-2" />
+                      Added!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      Add to Cart
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={toggleWishlist}
+                  variant="outline"
+                  className={`h-14 w-14 rounded-full flex-shrink-0 border-2 transition-all ${
+                    isSaved 
+                      ? 'bg-red-50 border-red-200 hover:bg-red-100' 
+                      : 'border-stone-200 hover:border-red-200 hover:bg-red-50'
+                  }`}
+                >
+                  <Heart className={`w-5 h-5 transition-all ${isSaved ? 'fill-red-500 text-red-500' : 'text-stone-400'}`} />
+                </Button>
+              </div>
 
               {/* PayPal badge */}
               <a
