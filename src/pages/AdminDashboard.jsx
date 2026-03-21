@@ -568,6 +568,17 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="inventory">
+            <Card className="border-0 shadow-sm">
+              <CardHeader>
+                <CardTitle>Bulk Stock Editor</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BulkStockEditor />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="orders">
             <Card className="border-0 shadow-sm">
               <CardHeader>
@@ -641,6 +652,15 @@ export default function AdminDashboard() {
                               >
                                 <Copy className="w-3 h-3 mr-1" />
                                 Copy Address
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="rounded-full text-xs"
+                                onClick={() => setPackingOrder(order)}
+                              >
+                                <Package className="w-3 h-3 mr-1" />
+                                Slip
                               </Button>
                               {order.status !== 'shipped' && order.status !== 'delivered' && (
                                 <Button
