@@ -11,7 +11,6 @@ import CartDrawer from "@/components/CartDrawer";
 import AdvancedFilters from "@/components/shop/AdvancedFilters";
 import MobileNav from "@/components/MobileNav";
 import ActiveFilters from "@/components/shop/ActiveFilters";
-import RoomBrowser from "@/components/shop/RoomBrowser";
 import {
   Sheet,
   SheetContent,
@@ -71,8 +70,6 @@ export default function Shop() {
   const [filters, setFilters] = useState({
     search: '',
     category: 'all',
-    room: 'all',
-    product_type: 'all',
     brand: 'all',
     minRating: 0,
     inStockOnly: false,
@@ -126,13 +123,7 @@ export default function Shop() {
       
       // Category filter
       if (filters.category !== 'all' && p.category !== filters.category) return false;
-
-      // Room filter
-      if (filters.room !== 'all' && p.room !== filters.room) return false;
-
-      // Product type filter
-      if (filters.product_type !== 'all' && p.product_type !== filters.product_type) return false;
-
+      
       // Brand filter
       if (filters.brand !== 'all' && p.brand !== filters.brand) return false;
       
@@ -240,14 +231,6 @@ export default function Shop() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Room Browser */}
-        <div className="mb-6">
-          <RoomBrowser 
-            selectedRoom={filters.room} 
-            onRoomSelect={(room) => setFilters({...filters, room})} 
-          />
-        </div>
-
         {/* Search Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
@@ -354,8 +337,6 @@ export default function Shop() {
                   onClick={() => setFilters({
                     search: '',
                     category: 'all',
-                    room: 'all',
-                    product_type: 'all',
                     brand: 'all',
                     minRating: 0,
                     inStockOnly: false,

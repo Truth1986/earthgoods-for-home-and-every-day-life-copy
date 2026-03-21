@@ -14,34 +14,6 @@ const categories = {
   clothing: "Clothing",
 };
 
-const rooms = {
-  kitchen: "🍳 Kitchen",
-  bedroom: "🛏️ Bedroom",
-  bathroom: "🚿 Bathroom",
-  living_room: "🛋️ Living Room",
-  dining_room: "🍽️ Dining Room",
-  outdoor: "🌿 Outdoor",
-  garage: "🔧 Garage",
-  office: "💼 Office",
-  laundry: "👕 Laundry",
-  entryway: "🚪 Entryway",
-};
-
-const productTypes = {
-  cleaning: "Cleaning",
-  storage: "Storage",
-  decor: "Decor",
-  bedding: "Bedding",
-  cookware: "Cookware",
-  tools: "Tools",
-  lighting: "Lighting",
-  furniture: "Furniture",
-  personal_care: "Personal Care",
-  appliances: "Appliances",
-  textiles: "Textiles",
-  organizers: "Organizers",
-};
-
 export default function ActiveFilters({ filters, setFilters, maxPrice = 500 }) {
   const activeFilters = [];
 
@@ -59,24 +31,6 @@ export default function ActiveFilters({ filters, setFilters, maxPrice = 500 }) {
       label: categories[filters.category] || filters.category,
       color: 'bg-amber-100 text-amber-800',
       onRemove: () => setFilters({ ...filters, category: 'all' })
-    });
-  }
-
-  if (filters.room && filters.room !== 'all') {
-    activeFilters.push({
-      key: 'room',
-      label: rooms[filters.room] || filters.room,
-      color: 'bg-teal-100 text-teal-800',
-      onRemove: () => setFilters({ ...filters, room: 'all' })
-    });
-  }
-
-  if (filters.product_type && filters.product_type !== 'all') {
-    activeFilters.push({
-      key: 'product_type',
-      label: productTypes[filters.product_type] || filters.product_type,
-      color: 'bg-indigo-100 text-indigo-800',
-      onRemove: () => setFilters({ ...filters, product_type: 'all' })
     });
   }
 
