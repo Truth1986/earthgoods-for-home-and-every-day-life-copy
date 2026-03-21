@@ -85,6 +85,11 @@ export default function AdminDashboard() {
     queryFn: () => base44.entities.Order.list('-created_date'),
   });
 
+  const { data: suppliers = [] } = useQuery({
+    queryKey: ['suppliers'],
+    queryFn: () => base44.entities.Supplier.list(),
+  });
+
   const createProduct = useMutation({
     mutationFn: (data) => base44.entities.Product.create(data),
     onSuccess: () => {
