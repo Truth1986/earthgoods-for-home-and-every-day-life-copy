@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Copy, Tag, X } from "lucide-react";
+import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Tag, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link } from "react-router-dom";
