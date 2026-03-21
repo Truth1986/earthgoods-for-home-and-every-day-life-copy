@@ -8,12 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Leaf, ArrowLeft, Check, ShoppingBag, Loader2, Truck, Zap, Copy, Tag, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 
 export default function Checkout() {
-  const navigate = useNavigate();
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
@@ -172,11 +171,6 @@ export default function Checkout() {
       </div>
     );
   }
-
-  const copyPayPalLink = () => {
-    navigator.clipboard.writeText('paypal.me/tracieruth281');
-    toast.success('PayPal link copied!');
-  };
 
   // Handle Stripe success redirect
   useEffect(() => {
