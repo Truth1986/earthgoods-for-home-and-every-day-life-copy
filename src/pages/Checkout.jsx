@@ -388,6 +388,15 @@ export default function Checkout() {
                         toast.error('Please fill in your details above first');
                         return;
                       }
+                      base44.analytics.track({
+                        eventName: 'paypal_checkout_button_clicked',
+                        properties: {
+                          amount: parseFloat(grandTotal.toFixed(2)),
+                          item_count: cart.reduce((sum, item) => sum + item.quantity, 0),
+                          shipping_method: shipping,
+                          has_discount_code: appliedCode !== null,
+                        }
+                      });
                     }}
                   >
                     <button
