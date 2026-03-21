@@ -240,6 +240,14 @@ export default function Shop() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Room Browser */}
+        <div className="mb-6">
+          <RoomBrowser 
+            selectedRoom={filters.room} 
+            onRoomSelect={(room) => setFilters({...filters, room})} 
+          />
+        </div>
+
         {/* Search Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
