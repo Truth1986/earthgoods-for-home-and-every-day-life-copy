@@ -14,6 +14,7 @@ import BestSellersReport from "@/components/analytics/BestSellersReport";
 import SalesTrendsReport from "@/components/analytics/SalesTrendsReport";
 import CustomerDemographics from "@/components/analytics/CustomerDemographics";
 import OwnerProfitView from "@/components/analytics/OwnerProfitView";
+import SupplierPayoutTracker from "@/components/analytics/SupplierPayoutTracker";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
@@ -281,10 +282,14 @@ export default function AnalyticsDashboard() {
                   Demographics
                 </TabsTrigger>
                 <TabsTrigger value="profit" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
-                  <Lock className="w-4 h-4 mr-2" />
-                  Profit
-                </TabsTrigger>
-              </TabsList>
+                   <Lock className="w-4 h-4 mr-2" />
+                   Profit
+                 </TabsTrigger>
+                 <TabsTrigger value="payouts" className="rounded-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white">
+                   <DollarSign className="w-4 h-4 mr-2" />
+                   Supplier Payouts
+                 </TabsTrigger>
+                </TabsList>
 
               {/* Traffic Tab */}
               <TabsContent value="traffic" className="space-y-6">
@@ -607,11 +612,16 @@ export default function AnalyticsDashboard() {
               </TabsContent>
 
               {/* Profit Tab */}
-              <TabsContent value="profit" className="space-y-6">
-                <OwnerProfitView totalRevenue={totalRevenue} />
-              </TabsContent>
+               <TabsContent value="profit" className="space-y-6">
+                 <OwnerProfitView totalRevenue={totalRevenue} />
+               </TabsContent>
 
-              {/* Customers Tab */}
+               {/* Supplier Payouts Tab */}
+               <TabsContent value="payouts" className="space-y-6">
+                 <SupplierPayoutTracker />
+               </TabsContent>
+
+               {/* Customers Tab */}
               <TabsContent value="customers" className="space-y-6">
                 <div className="grid sm:grid-cols-3 gap-6">
                   <Card className="bg-white border-stone-200">
