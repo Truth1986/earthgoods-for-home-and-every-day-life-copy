@@ -138,7 +138,7 @@ export default function AdvancedFilters({
         </Select>
       </div>
 
-      <Accordion type="multiple" defaultValue={["category", "price"]} className="space-y-2">
+      <Accordion type="multiple" defaultValue={["room", "product_type", "category", "price"]} className="space-y-2">
         {/* Category */}
         <AccordionItem value="category" className="border-b-0">
           <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
