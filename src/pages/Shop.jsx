@@ -125,7 +125,13 @@ export default function Shop() {
       
       // Category filter
       if (filters.category !== 'all' && p.category !== filters.category) return false;
-      
+
+      // Room filter
+      if (filters.room !== 'all' && p.room !== filters.room) return false;
+
+      // Product type filter
+      if (filters.product_type !== 'all' && p.product_type !== filters.product_type) return false;
+
       // Brand filter
       if (filters.brand !== 'all' && p.brand !== filters.brand) return false;
       
