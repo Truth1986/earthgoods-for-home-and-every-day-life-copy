@@ -18,6 +18,7 @@ import TrackOrder from './pages/TrackOrder';
 import DropshippingDashboard from './pages/DropshippingDashboard';
 import NewsletterCampaigns from './pages/NewsletterCampaigns';
 import NewsletterAnalytics from './pages/NewsletterAnalytics';
+import SalesOverview from './pages/SalesOverview';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
