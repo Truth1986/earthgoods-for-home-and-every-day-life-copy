@@ -81,6 +81,7 @@ const AuthenticatedApp = () => {
       <Route path="/DropshippingDashboard" element={<DropshippingDashboard />} />
       <Route path="/NewsletterCampaigns" element={<NewsletterCampaigns />} />
       <Route path="/NewsletterAnalytics" element={<NewsletterAnalytics />} />
+      <Route path="/SalesOverview" element={<SalesOverview />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
