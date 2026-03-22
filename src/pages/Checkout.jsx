@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
+import { useAbandonedCartSync } from "@/hooks/useAbandonedCartSync";
 
 export default function Checkout() {
   const [cart, setCart] = useState(() => {

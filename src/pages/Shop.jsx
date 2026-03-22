@@ -11,6 +11,8 @@ import CartDrawer from "@/components/CartDrawer";
 import AdvancedFilters from "@/components/shop/AdvancedFilters";
 import MobileNav from "@/components/MobileNav";
 import ActiveFilters from "@/components/shop/ActiveFilters";
+import { useAbandonedCartSync } from "@/hooks/useAbandonedCartSync";
+import { useQuery as useUserQuery } from '@tanstack/react-query';
 import {
   Sheet,
   SheetContent,
