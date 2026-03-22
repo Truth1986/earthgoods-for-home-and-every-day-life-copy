@@ -18,6 +18,15 @@ export default function Checkout() {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
+
+  // Track abandoned carts for logged-in users
+  const { data: currentUser } = useQuery({
+    queryKey: ['current-user-checkout'],
+    queryFn: () => base44.auth.me(),
+    retry: false,
+  });
+  const { markRecovered } = useAbandonedCartSync(cart, currentUser);
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [form, setForm] = useState({

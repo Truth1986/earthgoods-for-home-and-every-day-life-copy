@@ -61,11 +61,19 @@ const getSearchScore = (product, searchTerms, index) => {
 };
 
 export default function Shop() {
+  const { data: currentUser } = useUserQuery({
+    queryKey: ['current-user-shop'],
+    queryFn: () => base44.auth.me(),
+    retry: false,
+  });
+
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem('cart');
     return saved ? JSON.parse(saved) : [];
   });
   const [cartOpen, setCartOpen] = useState(false);
+
+  useAbandonedCartSync(cart, currentUser);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
   
