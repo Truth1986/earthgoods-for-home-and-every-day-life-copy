@@ -201,6 +201,7 @@ export default function Checkout() {
 
     if (response.data?.url) {
       localStorage.removeItem('cart');
+      await markRecovered();
       window.location.href = response.data.url;
     } else {
       toast.error('Failed to start checkout. Please try again.');
@@ -229,6 +230,7 @@ export default function Checkout() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
       setSuccess(true);
+      markRecovered();
     }
   }, []);
 
