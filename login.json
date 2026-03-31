@@ -1,0 +1,7 @@
+{
+  "error_type": "HTTPException",
+  "message": "Invalid SSO configuration: 2 validation errors for OAuthProviderConfig\nclient_id\n  Field required [type=missing, input_value={'name': 'github', 'scope... 'openid email profile'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nclient_secret\n  Field required [type=missing, input_value={'name': 'github', 'scope... 'openid email profile'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing",
+  "detail": "Invalid SSO configuration: 2 validation errors for OAuthProviderConfig\nclient_id\n  Field required [type=missing, input_value={'name': 'github', 'scope... 'openid email profile'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nclient_secret\n  Field required [type=missing, input_value={'name': 'github', 'scope... 'openid email profile'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing",
+  "traceback": "",
+  "request_id": null
+}
