@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head><script defer data-preview-inject="true" data-app-id="69bf1901059397e7a92af494" data-preview-type="sandbox" data-rum-app-id="db50c921-10c3-4f12-bccb-950fa174b708" data-rum-client-token="pubfe8a4f2972b412b4556fd67e77f82cb4" data-dd-site="datadoghq.com" src="https://app.base44.com/builder-bridge.js?t=1774935508"></script>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Base44 APP</title>
+      <!-- Tailwind CSS CDN for visual editing -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/node_modules/@base44/vite-plugin/dist/injections/unhandled-errors-handlers.js" type="module"></script>
+    <script src="/node_modules/@base44/vite-plugin/dist/injections/sandbox-hmr-notifier.js" type="module"></script>
+    <script src="/node_modules/@base44/vite-plugin/dist/injections/navigation-notifier.js" type="module"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script src="/node_modules/@base44/vite-plugin/dist/injections/sandbox-mount-observer.js" type="module"></script>
+    <script type="module">if (window.self !== window.top) {
+  const mode = new URLSearchParams(location.search).get("sandbox-bridge");
+  const url = mode === "local"
+    ? "https://localhost:3201/index.mjs"
+    : "/node_modules/@base44/vite-plugin/dist/statics/index.mjs";
+  import(url)
+    .then(mod => { if (typeof mod.setupVisualEditAgent === "function") mod.setupVisualEditAgent(); })
+    .catch(e => console.error("[visual-edit-agent] Failed to load:", e));
+}</script>
+  </body>
+</html>
