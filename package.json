@@ -13,5 +13,9 @@
     "license": "ISC",
     "devDependencies": {
         "@sm003/autojs6-dts": "^2.0.0"
+    },
+    "dependencies": {
+        "@base44/sdk": "^0.8.24",
+        "@base44/vite-plugin": "^1.0.6"
     }
 }
