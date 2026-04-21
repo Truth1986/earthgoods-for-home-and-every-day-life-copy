@@ -3,7 +3,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { tracking_number, carrier } = await req.json();
+    const { tracking_number, carrier, order_id } = await req.json();
 
     if (!tracking_number || !carrier) {
       return Response.json({ error: 'Tracking number and carrier required' }, { status: 400 });
@@ -76,12 +76,24 @@ Deno.serve(async (req) => {
       }
     }
 
-    return Response.json({
+    const result = {
       tracking_number,
       carrier,
       data: trackingData,
       timestamp: new Date().toISOString(),
-    });
+    };
+
+    // Update order if order_id provided
+    if (order_id) {
+      await base44.asServiceRole.entities.Order.update(order_id, {
+        status: 'shipped',
+        tracking_number,
+        carrier,
+        notes: (await base44.asServiceRole.entities.Order.filter({ id: order_id }))[0]?.notes + `\nTracking: ${carrier} ${tracking_number}`,
+      });
+    }
+
+    return Response.json(result);
   } catch (error) {
     console.error('Shipment tracking error:', error);
     return Response.json({ error: error.message }, { status: 500 });

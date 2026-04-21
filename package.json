@@ -1,24 +1,37 @@
 {
-    "name": "project-name",
+    "name": "earthgoods",
     "version": "1.0.0",
-    "description": "project-description",
+    "description": "Earth Goods marketplace for homesteaders and sustainable living enthusiasts.",
     "main": "main.js",
     "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
         "test": "echo \"Error: no test specified\" && exit 1",
         "dts": "npm i @sm003/autojs6-dts",
         "dts-link": "node .internal/create-dts-link.mjs"
     },
-    "keywords": [],
-    "author": "",
+    "keywords": ["react", "vite", "marketplace", "sustainable", "homesteading"],
+    "author": "Earth Goods",
     "license": "ISC",
     "devDependencies": {
-        "@sm003/autojs6-dts": "^2.0.0"
-<<<<<<< HEAD
-=======
+        "@sm003/autojs6-dts": "^2.0.0",
+        "@vitejs/plugin-react": "^4.7.0",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.4.39",
+        "tailwindcss": "^3.4.17",
+        "vite": "^6.3.6",
+        "source-map": "^0.7.4"
     },
     "dependencies": {
         "@base44/sdk": "^0.8.24",
-        "@base44/vite-plugin": "^1.0.6"
->>>>>>> 3ad7facd983ffa44f91ff0d1554169c50a7dd12c
+        "@base44/vite-plugin": "^1.0.6",
+        "@tanstack/react-query": "^5.89.0",
+        "lucide-react": "^0.475.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-markdown": "^8.0.0",
+        "react-quill": "^2.0.0",
+        "react-router-dom": "^6.30.1"
     }
 }

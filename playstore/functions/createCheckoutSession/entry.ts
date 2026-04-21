@@ -1,7 +1,15 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 import Stripe from 'npm:stripe@14.21.0';
+import { validateCheckout } from '../utils/validation.js';
+import { RateLimiter, checkRateLimit } from '../utils/rateLimiter.js';
+import { analyticsTracker } from '../utils/analytics.js';
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY"));
+const checkoutLimiter = new RateLimiter(null, {
+  windowMs: 60 * 1000,
+  maxRequests: 10,
+  keyPrefix: 'checkout',
+});
 
 Deno.serve(async (req) => {
   try {
@@ -12,11 +20,45 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Rate limiting check
+    const rateLimitResult = await checkRateLimit(checkoutLimiter, user.id);
+    if (!rateLimitResult.allowed) {
+      return Response.json(
+        { error: 'Too many checkout attempts. Please try again later.' },
+        { 
+          status: 429,
+          headers: { 'Retry-After': String(rateLimitResult.retryAfter) }
+        }
+      );
+    }
+
     const { items, customer_email, shipping, appliedCode, discountPercent, successUrl, cancelUrl } = await req.json();
+
+    // Validate input
+    const validation = validateCheckout({
+      items,
+      customer_email,
+      customer_name: '',
+      customer_address: '',
+      appliedCode,
+      discountPercent,
+    });
+
+    if (!validation.valid) {
+      return Response.json({ error: 'Validation failed', errors: validation.errors }, { status: 400 });
+    }
 
     if (!items || items.length === 0) {
       return Response.json({ error: 'No items provided' }, { status: 400 });
     }
+
+    // Track checkout initiation
+    await analyticsTracker.trackCheckoutInitiated(base44, {
+      items,
+      customer_email,
+      shipping,
+      appliedCode,
+    });
 
     const lineItems = items.map(item => ({
       price_data: {

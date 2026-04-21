@@ -1,0 +1,6 @@
+services:
+  earthgoodsforhomeandeverydaylifecopy:
+    image: earthgoodsforhomeandeverydaylifecopy
+    build:
+      context: .
+      dockerfile: ./Dockerfile

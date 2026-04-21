@@ -1,0 +1,16 @@
+{
+  "packageId": "com.earthgoods.app",
+  "host": "earthgoods.marketplace",
+  "name": "Earth Goods",
+  "launcherName": "Earth Goods",
+  "startUrl": "/",
+  "display": "standalone",
+  "themeColor": "#059669",
+  "backgroundColor": "#ffffff",
+  "navigationColor": "#059669",
+  "navigationColorDark": "#057a55",
+  "installedWebManifestUrl": "https://earthgoods.marketplace/manifest.json",
+  "sha256Fingerprint": [
+    "INSERT_SHA256_FINGERPRINT_HERE"
+  ]
+}

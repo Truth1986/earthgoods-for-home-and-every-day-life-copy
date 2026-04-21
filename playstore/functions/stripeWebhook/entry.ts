@@ -47,6 +47,17 @@ Deno.serve(async (req) => {
             `Stripe payment confirmed: ${session.id} | $${amountTotal}`,
         });
 
+        // Update inventory
+        for (const item of matchingOrder.items || []) {
+          const product = await base44.asServiceRole.entities.Product.filter({ id: item.product_id });
+          if (product.length > 0) {
+            const currentStock = product[0].stock || 0;
+            await base44.asServiceRole.entities.Product.update(item.product_id, {
+              stock: Math.max(0, currentStock - item.quantity),
+            });
+          }
+        }
+
         console.log(`Order ${matchingOrder.id} marked as paid`);
 
         // Send confirmation email
