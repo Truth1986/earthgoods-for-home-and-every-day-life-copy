@@ -1,0 +1,11 @@
+# allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://earthgoods.marketplace/sitemap.xml
+
+# Don't crawl certain paths
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /.*\.[ts|js]\.map$

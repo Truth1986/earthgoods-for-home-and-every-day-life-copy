@@ -1,0 +1,10 @@
+{
+    "workbench.browser.enableChatTools": true,
+    "github.copilot.chat.agentDebugLog.enabled": true,
+    "workbench.editor.alwaysShowEditorActions": true,
+    "workbench.editor.centeredLayoutFixedWidth": true,
+    "workbench.editor.closeOnFileDelete": true,
+    "terminal.integrated.commandsToSkipShell": [
+        ""
+    ]
+}

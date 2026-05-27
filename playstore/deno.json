@@ -1,0 +1,16 @@
+{
+  "imports": {
+    "npm:@base44/sdk@0.8.21": "npm:@base44/sdk@0.8.21",
+    "npm:stripe@14.21.0": "npm:stripe@14.21.0"
+  },
+  "compilerOptions": {
+    "lib": [
+      "deno.window"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "tasks": {
+    "dev": "deno task dev"
+  }
+}

@@ -1,5 +1,6 @@
 # EarthGoods App - Business & Sales Roadmap
 
+
 ## 📋 Table of Contents
 1. [App Capabilities](#app-capabilities)
 2. [Merchandise & Sales Operations](#merchandise--sales-operations)

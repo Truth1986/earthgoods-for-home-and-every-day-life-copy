@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Leaf, Heart, Users, Shield, ArrowRight, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";

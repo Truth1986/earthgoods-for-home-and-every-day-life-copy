@@ -36,6 +36,7 @@ import BulkStockEditor from "@/components/admin/BulkStockEditor";
 import PackingSlip from "@/components/admin/PackingSlip";
 import DiscountCodeManager from "@/components/admin/DiscountCodeManager";
 import ProductImageUploader from "@/components/admin/ProductImageUploader";
+import ProductImporter from "@/components/admin/ProductImporter";
 import { Dialog as PackingDialog, DialogContent as PackingDialogContent, DialogHeader as PackingDialogHeader, DialogTitle as PackingDialogTitle } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -330,13 +331,15 @@ export default function AdminDashboard() {
             <Card className="border-0 shadow-sm">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Products</CardTitle>
-                <Dialog open={productDialog} onOpenChange={(open) => { setProductDialog(open); if (!open) resetForm(); }}>
-                  <DialogTrigger asChild>
-                    <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Product
-                    </Button>
-                  </DialogTrigger>
+                <div className="flex gap-2">
+                  <ProductImporter />
+                  <Dialog open={productDialog} onOpenChange={(open) => { setProductDialog(open); if (!open) resetForm(); }}>
+                    <DialogTrigger asChild>
+                      <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Product
+                      </Button>
+                    </DialogTrigger>
                   <DialogContent className="max-w-lg">
                     <DialogHeader>
                       <DialogTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</DialogTitle>
@@ -494,6 +497,7 @@ export default function AdminDashboard() {
                     </form>
                   </DialogContent>
                 </Dialog>
+                </div>
               </CardHeader>
               <CardContent>
                 {loadingProducts ? (
