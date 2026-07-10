@@ -13,5 +13,8 @@
     "license": "ISC",
     "devDependencies": {
         "@sm003/autojs6-dts": "^2.0.0"
+    },
+    "dependencies": {
+        "@vercel/speed-insights": "^2.0.0"
     }
 }
