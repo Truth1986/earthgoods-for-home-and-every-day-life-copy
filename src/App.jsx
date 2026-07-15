@@ -23,6 +23,7 @@ import InventoryDashboard from './pages/InventoryDashboard';
 import CommunityRecipes from './pages/CommunityRecipes';
 import SubmitRecipe from './pages/SubmitRecipe';
 import ProductsManagement from './pages/ProductsManagement';
+import { Analytics } from '@vercel/analytics/react';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -106,6 +107,7 @@ function App() {
           <AuthenticatedApp />
         </Router>
         <Toaster />
+        <Analytics />
       </QueryClientProvider>
     </AuthProvider>
   )
